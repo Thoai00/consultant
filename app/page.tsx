@@ -1,13 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import {
+  FiAnchor,
+  FiBarChart2,
+  FiBook,
+  FiCheckCircle,
+  FiCheckSquare,
+  FiClipboard,
+  FiCrosshair,
+  FiDollarSign,
+  FiFlag,
+  FiGlobe,
+  FiGrid,
+  FiHome,
+  FiLink,
+  FiSearch,
+  FiShield,
+  FiStar,
+  FiTag,
+  FiUsers,
+  FiZap,
+} from "react-icons/fi";
 import {
   motion,
   useScroll,
   useTransform,
   AnimatePresence,
-  useSpring,
-  useMotionValue,
 } from "framer-motion";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -774,31 +794,31 @@ const WORKFLOW = [
     num: "01",
     title: "Initial Assessment",
     desc: "An initial assessment will be conducted to understand your requirements, trade routes, current compliance posture, and biggest pain points.",
-    icon: "🔍",
+    icon: <FiSearch size={26} />,
   },
   {
     num: "02",
     title: "Client Meeting",
     desc: "A face-to-face or online meeting will help deep-dive your business — mapping operations, identifying risks, and building a shared understanding.",
-    icon: "🤝",
+    icon: <FiUsers size={26} />,
   },
   {
     num: "03",
     title: "Quotation",
     desc: "A cost-effective solution will be proposed with a competitive quote tailored to your specific requirements and service level.",
-    icon: "💷",
+    icon: <FiTag size={26} />,
   },
   {
     num: "04",
     title: "Assessment Report",
     desc: "A comprehensive professional report will be presented — covering findings, recommendations, and your bespoke customs roadmap.",
-    icon: "📊",
+    icon: <FiBarChart2 size={26} />,
   },
   {
     num: "05",
     title: "After Sales Service",
     desc: "After-sales support will be available in line with the selected service level — from quarterly audits to on-demand expert advisory.",
-    icon: "🛡️",
+    icon: <FiShield size={26} />,
   },
 ];
 
@@ -809,7 +829,7 @@ const WORKFLOW = [
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Individual service card with parallax */
-function ParallaxServiceCard({ service, index }: { service: typeof SERVICES[0]; index: number }) {
+function ParallaxServiceCard({ service }: { service: typeof SERVICES[0] }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: cardRef,
@@ -820,8 +840,6 @@ function ParallaxServiceCard({ service, index }: { service: typeof SERVICES[0]; 
   const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0.6]);
   const scale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.94, 1, 1, 0.98]);
 
-  const isEven = index % 2 === 0;
-
   return (
     <motion.div
       ref={cardRef}
@@ -829,7 +847,6 @@ function ParallaxServiceCard({ service, index }: { service: typeof SERVICES[0]; 
       className="relative max-w-6xl mx-auto px-6 lg:px-10"
     >
       <motion.div
-        style={{ y }}
         className="relative rounded-3xl overflow-hidden border"
         style={{
           background: "rgba(14,19,24,0.97)",
@@ -1046,8 +1063,8 @@ function ServicesSection() {
 
         {/* Parallax cards — each scrolls naturally with depth */}
         <div className="space-y-10 lg:space-y-16">
-          {SERVICES.map((service, index) => (
-            <ParallaxServiceCard key={service.id} service={service} index={index} />
+          {SERVICES.map((service) => (
+            <ParallaxServiceCard key={service.id} service={service} />
           ))}
         </div>
       </section>
@@ -1056,10 +1073,10 @@ function ServicesSection() {
       <div className="bg-[#080c10] py-10 px-6 lg:px-10">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { n: "6", label: "Core Services", icon: "✦" },
-            { n: "500+", label: "Businesses Helped", icon: "🏢" },
-            { n: "100%", label: "HMRC Aligned", icon: "🛡️" },
-            { n: "£0", label: "Client Penalties", icon: "⚖️" },
+            { n: "6", label: "Core Services", icon: <FiStar size={20} /> },
+            { n: "500+", label: "Businesses Helped", icon: <FiGrid size={20} /> },
+            { n: "100%", label: "HMRC Aligned", icon: <FiShield size={20} /> },
+            { n: "£0", label: "Client Penalties", icon: <FiCheckSquare size={20} /> },
           ].map((s, i) => (
             <motion.div
               key={i}
@@ -1074,7 +1091,7 @@ function ServicesSection() {
                 borderColor: "rgba(0,200,215,0.12)",
               }}
             >
-              <div className="text-xl mb-1">{s.icon}</div>
+              <div className="flex justify-center mb-2 text-[#00c8d7]">{s.icon}</div>
               <p className="font-display text-2xl font-bold text-[#e8f0f8]">
                 {s.n}
               </p>
@@ -1187,7 +1204,7 @@ function WorkflowSection() {
                       <div
                         className={`flex items-center gap-3 mb-4 ${isEven ? "lg:flex-row-reverse" : ""}`}
                       >
-                        <span className="text-3xl">{step.icon}</span>
+                        <span className="flex items-center text-[#00c8d7]">{step.icon}</span>
                         <span className="font-display text-5xl font-bold text-[#e8f0f8]/[0.06]">
                           {step.num}
                         </span>
@@ -1274,37 +1291,37 @@ function WhyUsSection() {
       num: "01",
       title: "Deep Regulatory Knowledge",
       desc: "Stay ahead of every UK and international customs law change with real-time monitoring and proactive alerts.",
-      icon: "📚",
+      icon: <FiBook size={26} />,
     },
     {
       num: "02",
       title: "Tailored to Your Business",
       desc: "Bespoke strategies aligned with your industry, trade routes and risk profile — never a one-size-fits-all approach.",
-      icon: "🎯",
+      icon: <FiCrosshair size={26} />,
     },
     {
       num: "03",
       title: "Proactive, Not Reactive",
       desc: "We identify problems before they become penalties — saving you time, money and reputational risk.",
-      icon: "⚡",
+      icon: <FiZap size={26} />,
     },
     {
       num: "04",
       title: "End-to-End Support",
       desc: "From first consultation to in-house training, we are seamlessly embedded at every stage of your trade lifecycle.",
-      icon: "🔗",
+      icon: <FiLink size={26} />,
     },
     {
       num: "05",
       title: "HMRC-Aligned Expertise",
       desc: "Our consultants have deep familiarity with HMRC requirements, ensuring your declarations are always accurate.",
-      icon: "✅",
+      icon: <FiCheckCircle size={26} />,
     },
     {
       num: "06",
       title: "Duty Optimisation Focus",
       desc: "We don't just ensure compliance — we actively seek legitimate savings through relief schemes and trade agreements.",
-      icon: "💰",
+      icon: <FiDollarSign size={26} />,
     },
   ];
   return (
@@ -1372,7 +1389,7 @@ function WhyUsSection() {
               }}
             >
               <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-[#00c8d7]/[0.08] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="text-3xl mb-4">{r.icon}</div>
+              <div className="mb-4 text-[#00c8d7]">{r.icon}</div>
               <span className="font-display text-5xl font-bold text-[#e8f0f8]/[0.04] group-hover:text-[#00c8d7]/15 transition-colors duration-500 leading-none select-none block mb-3">
                 {r.num}
               </span>
@@ -1391,71 +1408,145 @@ function WhyUsSection() {
 /* ─── TRUST STRIP ────────────────────────────────────────────────────────── */
 function TrustStrip() {
   const badges = [
-    { label: "HMRC Registered", icon: "🏛️" },
-    { label: "WCO Compliant", icon: "🌐" },
-    { label: "ICC Member", icon: "⚖️" },
-    { label: "BIFA Aligned", icon: "🚢" },
-    { label: "UK Trade Authority", icon: "🇬🇧" },
-    { label: "FCDO Partner", icon: "🤝" },
-    { label: "ISO Standards", icon: "📋" },
-    { label: "5.0★ Rated", icon: "⭐" },
+    { label: "HMRC Registered",    icon: <FiHome size={22} />,        sub: "UK Revenue Authority" },
+    { label: "WCO Compliant",       icon: <FiGlobe size={22} />,       sub: "World Customs Org." },
+    { label: "ICC Member",          icon: <FiCheckSquare size={22} />, sub: "Int'l Chamber of Commerce" },
+    { label: "BIFA Aligned",        icon: <FiAnchor size={22} />,      sub: "British Int'l Freight Assoc." },
+    { label: "UK Trade Authority",  icon: <FiFlag size={22} />,        sub: "Government Registered" },
+    { label: "FCDO Partner",        icon: <FiUsers size={22} />,       sub: "Foreign Commonwealth & Dev." },
+    { label: "ISO Certified",       icon: <FiClipboard size={22} />,   sub: "International Standards Org." },
+    { label: "5.0★ Client Score",   icon: <FiStar size={22} />,        sub: "Verified Client Reviews" },
   ];
+
   return (
     <section
-      className="py-14 overflow-hidden border-y"
-      style={{ background: "#0e1318", borderColor: "rgba(0,200,215,0.1)" }}
+      className="py-24 relative overflow-hidden border-y"
+      style={{ background: "#0e1318", borderColor: "rgba(0,200,215,0.15)" }}
     >
-      <p className="text-center text-xs tracking-[0.3em] uppercase text-[#7a8fa6] font-semibold mb-7">
-        Recognised & trusted by leading UK and international authorities
-      </p>
-      <div
-        className="flex whitespace-nowrap"
-        style={{ animation: "marqueeScroll 28s linear infinite" }}
-      >
-        {[...badges, ...badges].map((b, i) => (
-          <div
-            key={i}
-            className="inline-flex items-center gap-3 mx-10 text-[#e8f0f8]/25 font-semibold text-sm"
-          >
-            <span className="text-xl">{b.icon}</span>
-            <span>{b.label}</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00c8d7]/35 ml-4" />
+      {/* Background glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[250px] rounded-full bg-[#00c8d7]/[0.05] blur-[100px]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-14"
+        >
+          <div className="inline-flex items-center gap-3 text-xs tracking-[0.3em] uppercase text-[#00c8d7] font-bold mb-5 justify-center">
+            <span className="w-10 h-px bg-[#00c8d7]" />
+            Accredited &amp; Recognised
+            <span className="w-10 h-px bg-[#00c8d7]" />
           </div>
-        ))}
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-[#e8f0f8] leading-tight mb-4">
+            Trusted by leading UK &amp;{" "}
+            <span
+              className="italic"
+              style={{
+                background: "linear-gradient(120deg,#e8f0f8 0%,#00c8d7 40%,#4dd9e6 60%,#e8f0f8 100%)",
+                backgroundSize: "200% 200%",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                animation: "gradShift 8s ease infinite",
+              }}
+            >
+              international authorities
+            </span>
+          </h2>
+          <p className="text-[#7a8fa6] max-w-xl mx-auto leading-relaxed">
+            Our credentials span government agencies, international trade bodies and professional organisations — giving you complete confidence in every engagement.
+          </p>
+        </motion.div>
+
+        {/* Badge grid */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.07 } },
+          }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+        >
+          {badges.map((b, i) => (
+            <motion.div
+              key={i}
+              variants={{
+                hidden: { opacity: 0, y: 28, scale: 0.96 },
+                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+              }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="group flex flex-col items-center gap-4 p-6 rounded-2xl border text-center relative overflow-hidden"
+              style={{
+                background: "rgba(20,28,36,0.9)",
+                borderColor: "rgba(0,200,215,0.14)",
+              }}
+            >
+              {/* Hover glow */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ background: "radial-gradient(circle at 50% 0%, rgba(0,200,215,0.1), transparent 65%)" }}
+              />
+              {/* Icon */}
+              <div
+                className="relative w-12 h-12 rounded-2xl flex items-center justify-center text-[#00c8d7] transition-all duration-300 group-hover:scale-110"
+                style={{
+                  background: "rgba(0,200,215,0.1)",
+                  border: "1px solid rgba(0,200,215,0.22)",
+                  boxShadow: "0 0 20px rgba(0,200,215,0.08)",
+                }}
+              >
+                {b.icon}
+              </div>
+              {/* Label */}
+              <div className="relative">
+                <p className="text-sm font-bold text-[#e8f0f8] mb-1">{b.label}</p>
+                <p className="text-[10px] text-[#7a8fa6] leading-relaxed">{b.sub}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
 }
 
 /* ─── TESTIMONIALS ───────────────────────────────────────────────────────── */
+const TESTIMONIALS = [
+  {
+    quote:
+      "Working with Express Customs transformed how we approach international trade. Their proactive approach saved us thousands in duties and gave us complete peace of mind on every shipment.",
+    name: "James Mitchell",
+    role: "Operations Director, Global Importers Ltd",
+    initials: "JM",
+  },
+  {
+    quote:
+      "The tariff classification expertise alone has saved our business significant sums annually. Their team is incredibly responsive and genuinely invested in our success.",
+    name: "Sarah Thompson",
+    role: "Head of Logistics, TechExport UK",
+    initials: "ST",
+  },
+  {
+    quote:
+      "From documentation support to staff training, Express Customs has been indispensable since Brexit. We couldn't navigate the complexity without them.",
+    name: "David Chen",
+    role: "CEO, Pacific Bridge Trading",
+    initials: "DC",
+  },
+];
+
 function TestimonialSection() {
-  const testimonials = [
-    {
-      quote:
-        "Working with Express Customs transformed how we approach international trade. Their proactive approach saved us thousands in duties and gave us complete peace of mind on every shipment.",
-      name: "James Mitchell",
-      role: "Operations Director, Global Importers Ltd",
-      initials: "JM",
-    },
-    {
-      quote:
-        "The tariff classification expertise alone has saved our business significant sums annually. Their team is incredibly responsive and genuinely invested in our success.",
-      name: "Sarah Thompson",
-      role: "Head of Logistics, TechExport UK",
-      initials: "ST",
-    },
-    {
-      quote:
-        "From documentation support to staff training, Express Customs has been indispensable since Brexit. We couldn't navigate the complexity without them.",
-      name: "David Chen",
-      role: "CEO, Pacific Bridge Trading",
-      initials: "DC",
-    },
-  ];
   const [active, setActive] = useState(0);
   useEffect(() => {
     const id = setInterval(
-      () => setActive((v) => (v + 1) % testimonials.length),
+      () => setActive((v) => (v + 1) % TESTIMONIALS.length),
       5000
     );
     return () => clearInterval(id);
@@ -1492,25 +1583,25 @@ function TestimonialSection() {
                 <path d="M10 8c-3 0-6 3-6 8s3 8 6 8h2v-8H8c0-2 2-4 4-4V8h-2zm12 0c-3 0-6 3-6 8s3 8 6 8h2v-8h-4c0-2 2-4 4-4V8h-2z" />
               </svg>
               <p className="font-display text-2xl md:text-4xl font-medium text-[#e8f0f8] leading-snug mb-9 max-w-3xl mx-auto">
-                &ldquo;{testimonials[active].quote}&rdquo;
+                &ldquo;{TESTIMONIALS[active].quote}&rdquo;
               </p>
               <div className="flex items-center justify-center gap-4">
                 <div className="w-14 h-14 rounded-full bg-[#141c24] border border-[#00c8d7]/30 flex items-center justify-center text-[#4dd9e6] font-display font-bold">
-                  {testimonials[active].initials}
+                  {TESTIMONIALS[active].initials}
                 </div>
                 <div className="text-left">
                   <p className="font-semibold text-[#e8f0f8]">
-                    {testimonials[active].name}
+                    {TESTIMONIALS[active].name}
                   </p>
                   <p className="text-sm text-[#7a8fa6]">
-                    {testimonials[active].role}
+                    {TESTIMONIALS[active].role}
                   </p>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
           <div className="flex justify-center gap-2 mt-9">
-            {testimonials.map((_, i) => (
+            {TESTIMONIALS.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActive(i)}
@@ -1534,18 +1625,38 @@ function TestimonialSection() {
    ═══════════════════════════════════════════════════════════════════════════ */
 function AboutLeftPanel() {
   const { ref, visible } = useReveal<HTMLDivElement>();
+  const [gaugeAnimated, setGaugeAnimated] = useState(false);
 
-  const metrics = [
-    { label: "Compliance Rate", value: 100, suffix: "%", color: "#00c8d7" },
-    { label: "Client Retention", value: 94, suffix: "%", color: "#4dd9e6" },
-    { label: "Duty Saved YTD", value: 284, suffix: "K", prefix: "£", color: "#b8c6d6" },
+  useEffect(() => {
+    if (!visible) return;
+    const t = setTimeout(() => setGaugeAnimated(true), 350);
+    return () => clearTimeout(t);
+  }, [visible]);
+
+  const radius = 68;
+  const circumference = 2 * Math.PI * radius;
+  const dashOffset = gaugeAnimated ? 0 : circumference;
+
+  const stats = [
+    { value: "£284K", label: "Duty Saved",    color: "#4dd9e6" },
+    { value: "500+",  label: "Clients Served", color: "#00c8d7" },
+    { value: "94%",   label: "Retention Rate", color: "#b8c6d6" },
   ];
 
   const recentActivity = [
-    { route: "UK → Germany", status: "Cleared", time: "2 min ago", flag: "🇩🇪" },
-    { route: "UK → USA", status: "In Transit", time: "8 min ago", flag: "🇺🇸" },
-    { route: "UK → Japan", status: "Cleared", time: "15 min ago", flag: "🇯🇵" },
-    { route: "UK → Australia", status: "Processing", time: "22 min ago", flag: "🇦🇺" },
+    { route: "UK → Germany",   status: "Cleared",    time: "2 min ago",  color: "#34d399" },
+    { route: "UK → USA",       status: "In Transit",  time: "8 min ago",  color: "#00c8d7" },
+    { route: "UK → Japan",     status: "Cleared",    time: "15 min ago", color: "#34d399" },
+    { route: "UK → Australia", status: "Processing", time: "22 min ago", color: "#fbbf24" },
+  ];
+
+  const certs = [
+    { label: "HMRC", desc: "Tax Authority" },
+    { label: "WCO",  desc: "World Customs" },
+    { label: "ICC",  desc: "Int'l Chamber" },
+    { label: "BIFA", desc: "Freight Assoc." },
+    { label: "ISO",  desc: "Standards Org." },
+    { label: "FCDO", desc: "Foreign Office" },
   ];
 
   return (
@@ -1558,175 +1669,159 @@ function AboutLeftPanel() {
         transition: "all 0.9s ease",
       }}
     >
-      {/* ── Top: Brand card with logo watermark ── */}
+      {/* ── Hero card ── */}
       <div
         className="relative rounded-3xl overflow-hidden border p-7"
         style={{
-          background: "linear-gradient(135deg, rgba(20,28,36,0.95) 0%, rgba(8,12,16,0.98) 100%)",
-          borderColor: "rgba(0,200,215,0.18)",
-          boxShadow: "0 20px 60px -15px rgba(0,200,215,0.12)",
+          background: "linear-gradient(135deg, rgba(20,28,36,0.98) 0%, rgba(8,12,16,0.99) 100%)",
+          borderColor: "rgba(0,200,215,0.22)",
+          boxShadow: "0 24px 64px -16px rgba(0,200,215,0.18), 0 0 0 1px rgba(0,200,215,0.06)",
         }}
       >
         {/* Glow blobs */}
-        <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-[#00c8d7]/10 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-[#4dd9e6]/8 blur-2xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-56 h-56 rounded-full bg-[#00c8d7]/[0.09] blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#4dd9e6]/[0.05] blur-2xl pointer-events-none" />
 
-        {/* Logo watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <img src="/logo.png" alt="" className="w-3/4 opacity-[0.04]" />
+        {/* Live badge */}
+        <div className="flex items-center justify-between mb-7 relative z-10">
+          <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-[#00c8d7] font-bold">
+            <span className="relative flex w-2 h-2">
+              <span className="absolute inset-0 rounded-full bg-emerald-400 opacity-75 animate-ping" />
+              <span className="relative rounded-full w-2 h-2 bg-emerald-400" />
+            </span>
+            Live Operations
+          </div>
+          <span className="text-[10px] text-[#7a8fa6] font-semibold tracking-wider">London · GMT</span>
         </div>
 
-        <div className="relative z-10">
-          {/* Live badge */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-[#00c8d7] font-bold">
-              <span className="relative flex w-2 h-2">
-                <span className="absolute inset-0 rounded-full bg-emerald-400 opacity-75 animate-ping" />
-                <span className="relative rounded-full w-2 h-2 bg-emerald-400" />
-              </span>
-              Live Operations
-            </div>
-            <span className="text-[10px] text-[#7a8fa6] font-semibold tracking-wider">London · GMT</span>
-          </div>
-
-          {/* Activity feed */}
-          <div className="space-y-2.5 mb-6">
-            {recentActivity.map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -16 }}
-                animate={visible ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
-                className="flex items-center justify-between p-3 rounded-xl"
+        {/* ── SVG compliance gauge ── */}
+        <div className="flex justify-center mb-7 relative z-10">
+          <div className="relative w-48 h-48">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 170 170">
+              {/* Dashed outer decoration ring */}
+              <circle cx="85" cy="85" r="82" fill="none" stroke="rgba(0,200,215,0.08)" strokeWidth="1" strokeDasharray="3 7" />
+              {/* Track */}
+              <circle cx="85" cy="85" r={radius} fill="none" stroke="rgba(232,240,248,0.06)" strokeWidth="10" />
+              {/* Soft glow layer */}
+              <circle
+                cx="85" cy="85" r={radius}
+                fill="none"
+                stroke="rgba(0,200,215,0.18)"
+                strokeWidth="18"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                strokeDashoffset={dashOffset}
+                style={{ transition: "stroke-dashoffset 2.4s cubic-bezier(0.16,1,0.3,1)", filter: "blur(6px)" }}
+              />
+              {/* Main progress ring */}
+              <circle
+                cx="85" cy="85" r={radius}
+                fill="none"
+                stroke="#00c8d7"
+                strokeWidth="10"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                strokeDashoffset={dashOffset}
                 style={{
-                  background: "rgba(232,240,248,0.03)",
-                  border: "1px solid rgba(232,240,248,0.06)",
+                  transition: "stroke-dashoffset 2.4s cubic-bezier(0.16,1,0.3,1)",
+                  filter: "drop-shadow(0 0 12px rgba(0,200,215,0.85))",
                 }}
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="text-base">{item.flag}</span>
-                  <div>
-                    <p className="text-xs font-semibold text-[#e8f0f8]">{item.route}</p>
-                    <p className="text-[10px] text-[#7a8fa6]">{item.time}</p>
-                  </div>
-                </div>
-                <span
-                  className="text-[10px] font-bold px-2.5 py-1 rounded-full"
-                  style={{
-                    background:
-                      item.status === "Cleared"
-                        ? "rgba(52,211,153,0.12)"
-                        : item.status === "In Transit"
-                        ? "rgba(0,200,215,0.12)"
-                        : "rgba(251,191,36,0.12)",
-                    color:
-                      item.status === "Cleared"
-                        ? "#34d399"
-                        : item.status === "In Transit"
-                        ? "#00c8d7"
-                        : "#fbbf24",
-                  }}
-                >
-                  {item.status}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Quote */}
-          <div className="border-t border-[#e8f0f8]/8 pt-5">
-            <svg className="w-8 h-8 text-[#00c8d7]/30 mb-3" fill="currentColor" viewBox="0 0 32 32">
-              <path d="M10 8c-3 0-6 3-6 8s3 8 6 8h2v-8H8c0-2 2-4 4-4V8h-2zm12 0c-3 0-6 3-6 8s3 8 6 8h2v-8h-4c0-2 2-4 4-4V8h-2z" />
+              />
             </svg>
-            <p className="font-display text-lg text-[#e8f0f8]/80 leading-snug italic">
-              Years of expertise across every industry, on a truly global scale.
-            </p>
-            <div className="mt-4 flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#1c2530] border border-[#00c8d7]/30 flex items-center justify-center">
-                <img src="/logo.png" alt="EC" className="w-7 h-7 object-contain" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-[#e8f0f8]">Express Customs Team</p>
-                <p className="text-[10px] text-[#4dd9e6]">Consulting UK Ltd</p>
-              </div>
+            {/* Center label */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="font-display text-4xl font-bold text-[#e8f0f8] leading-none">100%</span>
+              <span className="text-[10px] text-[#00c8d7] uppercase tracking-[0.2em] font-bold mt-2">Compliance</span>
+              <span className="text-[9px] text-[#7a8fa6] tracking-widest mt-0.5">HMRC Aligned</span>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* ── Bottom row: 3 metric bars ── */}
-      <div className="grid grid-cols-1 gap-3">
-        {metrics.map((m, i) => (
-          <motion.div
-            key={m.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.6 + i * 0.12 }}
-            className="relative rounded-2xl p-5 border overflow-hidden"
-            style={{
-              background: "rgba(20,28,36,0.8)",
-              borderColor: `${m.color}20`,
-            }}
-          >
-            {/* Glow line on left */}
-            <div
-              className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl"
-              style={{ background: m.color }}
-            />
-            <div className="flex items-center justify-between mb-3 pl-3">
-              <span className="text-xs text-[#7a8fa6] font-semibold uppercase tracking-widest">
-                {m.label}
-              </span>
-              <span
-                className="font-display text-2xl font-bold tabular-nums"
-                style={{ color: m.color }}
-              >
-                {m.prefix || ""}{m.value}{m.suffix}
-              </span>
-            </div>
-            {/* Progress bar */}
-            <div className="pl-3">
-              <div className="h-1.5 bg-[#e8f0f8]/6 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{ background: m.color }}
-                  initial={{ width: 0 }}
-                  animate={visible ? { width: `${Math.min(m.value, 100)}%` } : {}}
-                  transition={{ duration: 1.2, delay: 0.7 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+        {/* ── 3 stat tiles ── */}
+        <div className="grid grid-cols-3 gap-2.5 mb-6 relative z-10">
+          {stats.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 14 }}
+              animate={visible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
+              className="rounded-xl p-3 text-center"
+              style={{
+                background: "rgba(232,240,248,0.04)",
+                border: `1px solid ${s.color}22`,
+              }}
+            >
+              <p className="font-display text-xl font-bold leading-none" style={{ color: s.color }}>{s.value}</p>
+              <p className="text-[9px] text-[#7a8fa6] uppercase tracking-widest mt-1.5 font-semibold leading-tight">{s.label}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-[#e8f0f8]/8 mb-5 relative z-10" />
+
+        {/* ── Activity feed ── */}
+        <div className="space-y-2 relative z-10">
+          {recentActivity.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -12 }}
+              animate={visible ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.35 + i * 0.09 }}
+              className="flex items-center justify-between px-3 py-2.5 rounded-xl"
+              style={{
+                background: "rgba(232,240,248,0.03)",
+                border: "1px solid rgba(232,240,248,0.06)",
+              }}
+            >
+              <div className="flex items-center gap-2.5">
+                <span
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: item.color, boxShadow: `0 0 6px ${item.color}90` }}
                 />
+                <div>
+                  <p className="text-xs font-semibold text-[#e8f0f8]">{item.route}</p>
+                  <p className="text-[9px] text-[#7a8fa6]">{item.time}</p>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+              <span
+                className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                style={{ background: item.color + "22", color: item.color }}
+              >
+                {item.status}
+              </span>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      {/* ── Certification badges strip ── */}
+      {/* ── Certification grid ── */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={visible ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: 1.0 }}
-        className="rounded-2xl p-5 border"
+        transition={{ duration: 0.5, delay: 0.85 }}
+        className="rounded-2xl border p-5"
         style={{
-          background: "rgba(20,28,36,0.6)",
-          borderColor: "rgba(0,200,215,0.1)",
+          background: "rgba(20,28,36,0.8)",
+          borderColor: "rgba(0,200,215,0.14)",
         }}
       >
         <p className="text-[10px] text-[#7a8fa6] uppercase tracking-[0.25em] font-bold mb-4">
-          Certifications & Memberships
+          Certifications &amp; Memberships
         </p>
-        <div className="flex flex-wrap gap-2">
-          {["HMRC", "WCO", "ICC", "BIFA", "ISO", "FCDO"].map((cert) => (
-            <span
-              key={cert}
-              className="text-[10px] font-bold tracking-widest px-3 py-1.5 rounded-full border"
+        <div className="grid grid-cols-3 gap-2">
+          {certs.map((c) => (
+            <div
+              key={c.label}
+              className="flex flex-col items-center justify-center py-3 px-2 rounded-xl border text-center"
               style={{
-                background: "rgba(0,200,215,0.06)",
-                borderColor: "rgba(0,200,215,0.2)",
-                color: "#4dd9e6",
+                background: "rgba(0,200,215,0.05)",
+                borderColor: "rgba(0,200,215,0.15)",
               }}
             >
-              {cert}
-            </span>
+              <span className="text-[11px] font-bold tracking-widest text-[#4dd9e6]">{c.label}</span>
+              <span className="text-[9px] text-[#7a8fa6] mt-0.5 tracking-wide">{c.desc}</span>
+            </div>
           ))}
         </div>
       </motion.div>
@@ -1766,7 +1861,7 @@ export default function Home() {
     return () => clearInterval(id);
   }, []);
 
-  const contactR = useReveal();
+  const { ref: contactRef, visible: contactVisible } = useReveal();
 
   return (
     <>
@@ -1841,9 +1936,11 @@ export default function Home() {
             data-cursor="hover"
           >
             <div className="relative">
-              <img
+              <Image
                 src="/logo.png"
                 alt="Express Customs Consulting UK Ltd"
+                width={150}
+                height={38}
                 className="logo-img group-hover:opacity-90 transition-opacity duration-300"
               />
               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-[#080c10]" />
@@ -2420,11 +2517,11 @@ export default function Home() {
         className="py-28 bg-[#080c10] relative overflow-hidden"
       >
         <div
-          ref={contactR.ref}
+          ref={contactRef}
           className="max-w-6xl mx-auto px-6 lg:px-10"
           style={{
-            opacity: contactR.visible ? 1 : 0,
-            transform: contactR.visible ? "translateY(0)" : "translateY(40px)",
+            opacity: contactVisible ? 1 : 0,
+            transform: contactVisible ? "translateY(0)" : "translateY(40px)",
             transition: "all 0.9s ease",
           }}
         >
@@ -2507,9 +2604,11 @@ export default function Home() {
                     <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-[#e8f0f8] rounded-full" />
                   </div>
                   <div className="absolute inset-28 rounded-full bg-[#1c2530] border border-[#00c8d7]/30 flex items-center justify-center shadow-[0_0_60px_rgba(0,200,215,0.25)]">
-                    <img
+                    <Image
                       src="/logo.png"
                       alt="EC"
+                      width={80}
+                      height={80}
                       className="w-20 h-20 object-contain"
                     />
                   </div>
@@ -2536,9 +2635,11 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-10 pb-12 border-b border-[#e8f0f8]/7">
             <div className="md:col-span-2">
               <div className="mb-6">
-                <img
+                <Image
                   src="/logo.png"
                   alt="Express Customs Consulting UK Ltd"
+                  width={210}
+                  height={52}
                   className="logo-img-lg opacity-90"
                 />
               </div>
@@ -2601,7 +2702,7 @@ export default function Home() {
                     info.expresscustoms26@gmail.com
                   </a>
                 </li>
-                <li className="text-[#e8f0f8]/25">United Kingdom 🇬🇧</li>
+                <li className="flex items-center gap-1.5 text-[#e8f0f8]/25"><FiFlag size={12} /> United Kingdom</li>
               </ul>
             </div>
           </div>
@@ -2611,7 +2712,7 @@ export default function Home() {
               All rights reserved.
             </p>
             <p className="text-[#e8f0f8]/25">
-              Crafted with precision in the United Kingdom
+              Crafted By Three Plug
             </p>
           </div>
         </div>
