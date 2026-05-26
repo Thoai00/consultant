@@ -9,17 +9,17 @@ import {
   FiCheckCircle,
   FiCheckSquare,
   FiClipboard,
+  FiClock,
   FiCrosshair,
   FiDollarSign,
   FiFlag,
   FiGlobe,
-  FiGrid,
   FiHome,
   FiLink,
   FiSearch,
   FiShield,
-  FiStar,
   FiTag,
+  FiTruck,
   FiUsers,
   FiZap,
 } from "react-icons/fi";
@@ -29,6 +29,14 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  Graticule,
+  Marker,
+  Sphere,
+} from "react-simple-maps";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    COLOR SYSTEM — ALIGNED WITH LOGO
@@ -96,39 +104,6 @@ function useScrollProgress() {
   return p;
 }
 
-/* ─── COUNTER ────────────────────────────────────────────────────────────── */
-function Counter({
-  target,
-  suffix = "",
-  prefix = "",
-}: {
-  target: number;
-  suffix?: string;
-  prefix?: string;
-}) {
-  const [count, setCount] = useState(0);
-  const { ref, visible } = useReveal<HTMLSpanElement>();
-  useEffect(() => {
-    if (!visible) return;
-    const dur = 2200;
-    const startTs = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - startTs) / dur);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setCount(Math.floor(eased * target));
-      if (p < 1) requestAnimationFrame(tick);
-      else setCount(target);
-    };
-    requestAnimationFrame(tick);
-  }, [visible, target]);
-  return (
-    <span ref={ref}>
-      {prefix}
-      {count}
-      {suffix}
-    </span>
-  );
-}
 
 /* ─── CUSTOM CURSOR ──────────────────────────────────────────────────────── */
 function CustomCursor() {
@@ -648,8 +623,8 @@ const SERVICES = [
     description:
       "Our team identifies the correct commodity codes using internationally recognised Harmonized System (HS), ensuring accurate duty and VAT calculations — helping you avoid penalties, delays, or overpayments.",
     highlight: "HS Code Experts",
-    stat: "£284K",
-    statLabel: "Avg. Duty Saved YTD",
+    stat: "Tailored",
+    statLabel: "Savings Per Business",
     color: "#4dd9e6",
     features: [
       "HS Code Classification",
@@ -680,8 +655,8 @@ const SERVICES = [
     description:
       "We deliver detailed support in the preparation of essential documentation — including commercial invoices, packing lists, certificates of origin, and customs declarations — ensuring accuracy at every stage.",
     highlight: "End-to-End Docs",
-    stat: "48h",
-    statLabel: "Avg. Turnaround",
+    stat: "Flexible",
+    statLabel: "Based on Scope",
     color: "#8a9ab5",
     features: [
       "Commercial Invoices",
@@ -939,25 +914,6 @@ function ParallaxServiceCard({ service }: { service: typeof SERVICES[0] }) {
             className="p-6 lg:p-10 flex flex-col justify-between border-t md:border-t-0 md:border-l"
             style={{ borderColor: `${service.color}12` }}
           >
-            {/* Stat */}
-            <div
-              className="rounded-2xl p-5 mb-5"
-              style={{
-                background: `${service.color}0a`,
-                border: `1px solid ${service.color}18`,
-              }}
-            >
-              <p className="text-xs text-[#7a8fa6] uppercase tracking-widest font-bold mb-1">
-                {service.statLabel}
-              </p>
-              <p
-                className="font-display text-4xl lg:text-5xl font-bold"
-                style={{ color: service.color }}
-              >
-                {service.stat}
-              </p>
-            </div>
-
             {/* Features */}
             <div>
               <p className="text-xs text-[#7a8fa6] uppercase tracking-widest font-bold mb-3">
@@ -1069,39 +1025,6 @@ function ServicesSection() {
         </div>
       </section>
 
-      {/* Stats row */}
-      <div className="bg-[#080c10] py-10 px-6 lg:px-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { n: "6", label: "Core Services", icon: <FiStar size={20} /> },
-            { n: "500+", label: "Businesses Helped", icon: <FiGrid size={20} /> },
-            { n: "100%", label: "HMRC Aligned", icon: <FiShield size={20} /> },
-            { n: "£0", label: "Client Penalties", icon: <FiCheckSquare size={20} /> },
-          ].map((s, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -4, scale: 1.02 }}
-              transition={{ duration: 0.25 }}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="rounded-2xl p-5 text-center border"
-              style={{
-                background: "rgba(20,28,36,0.7)",
-                borderColor: "rgba(0,200,215,0.12)",
-              }}
-            >
-              <div className="flex justify-center mb-2 text-[#00c8d7]">{s.icon}</div>
-              <p className="font-display text-2xl font-bold text-[#e8f0f8]">
-                {s.n}
-              </p>
-              <p className="text-[10px] text-[#7a8fa6] uppercase tracking-wider mt-0.5 font-semibold">
-                {s.label}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
     </>
   );
 }
@@ -1413,9 +1336,7 @@ function TrustStrip() {
     { label: "ICC Member",          icon: <FiCheckSquare size={22} />, sub: "Int'l Chamber of Commerce" },
     { label: "BIFA Aligned",        icon: <FiAnchor size={22} />,      sub: "British Int'l Freight Assoc." },
     { label: "UK Trade Authority",  icon: <FiFlag size={22} />,        sub: "Government Registered" },
-    { label: "FCDO Partner",        icon: <FiUsers size={22} />,       sub: "Foreign Commonwealth & Dev." },
     { label: "ISO Certified",       icon: <FiClipboard size={22} />,   sub: "International Standards Org." },
-    { label: "5.0★ Client Score",   icon: <FiStar size={22} />,        sub: "Verified Client Reviews" },
   ];
 
   return (
@@ -1472,7 +1393,7 @@ function TrustStrip() {
             hidden: {},
             visible: { transition: { staggerChildren: 0.07 } },
           }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+          className="grid grid-cols-2 sm:grid-cols-3 gap-4"
         >
           {badges.map((b, i) => (
             <motion.div
@@ -1509,6 +1430,271 @@ function TrustStrip() {
                 <p className="text-sm font-bold text-[#e8f0f8] mb-1">{b.label}</p>
                 <p className="text-[10px] text-[#7a8fa6] leading-relaxed">{b.sub}</p>
               </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── GLOBAL COVERAGE MAP ────────────────────────────────────────────────── */
+function GlobalCoverageSection() {
+  /* ISO-3166-1 numeric codes → region bucket */
+  const REGION_MAP: Record<string, string> = {
+    // ── Americas ──
+    "124":"americas","840":"americas","484":"americas","304":"americas",
+    "320":"americas","340":"americas","222":"americas","558":"americas",
+    "188":"americas","591":"americas","84":"americas","192":"americas",
+    "214":"americas","332":"americas","388":"americas","76":"americas",
+    "32":"americas","152":"americas","170":"americas","604":"americas",
+    "862":"americas","858":"americas","600":"americas","68":"americas",
+    "218":"americas","328":"americas","740":"americas","254":"americas",
+    "630":"americas","44":"americas","52":"americas","308":"americas",
+    "662":"americas","780":"americas","659":"americas","670":"americas",
+    // ── Europe ──
+    "826":"europe","250":"europe","276":"europe","380":"europe","724":"europe",
+    "620":"europe","528":"europe","56":"europe","756":"europe","40":"europe",
+    "442":"europe","752":"europe","578":"europe","208":"europe","246":"europe",
+    "352":"europe","616":"europe","203":"europe","703":"europe","348":"europe",
+    "642":"europe","100":"europe","804":"europe","112":"europe","498":"europe",
+    "191":"europe","705":"europe","688":"europe","70":"europe","807":"europe",
+    "8":"europe","499":"europe","300":"europe","233":"europe","428":"europe",
+    "440":"europe","372":"europe","470":"europe","643":"europe",
+    "438":"europe","492":"europe","674":"europe","336":"europe","20":"europe",
+    // ── MEA ──
+    "818":"mea","784":"mea","682":"mea","634":"mea","414":"mea","512":"mea",
+    "400":"mea","422":"mea","760":"mea","275":"mea","368":"mea","364":"mea",
+    "887":"mea","48":"mea","376":"mea","792":"mea","504":"mea","12":"mea",
+    "788":"mea","434":"mea","729":"mea","566":"mea","288":"mea","686":"mea",
+    "324":"mea","466":"mea","204":"mea","854":"mea","384":"mea","430":"mea",
+    "694":"mea","768":"mea","404":"mea","800":"mea","834":"mea","646":"mea",
+    "108":"mea","231":"mea","262":"mea","232":"mea","706":"mea","24":"mea",
+    "180":"mea","178":"mea","266":"mea","120":"mea","140":"mea","148":"mea",
+    "710":"mea","516":"mea","72":"mea","748":"mea","426":"mea","508":"mea",
+    "716":"mea","454":"mea","894":"mea","450":"mea","690":"mea","480":"mea",
+    "174":"mea","562":"mea","270":"mea","624":"mea",
+    // ── APAC ──
+    "356":"apac","586":"apac","50":"apac","144":"apac","524":"apac","64":"apac",
+    "462":"apac","156":"apac","392":"apac","410":"apac","408":"apac","496":"apac",
+    "158":"apac","764":"apac","702":"apac","458":"apac","360":"apac","608":"apac",
+    "704":"apac","418":"apac","116":"apac","104":"apac","96":"apac","398":"apac",
+    "417":"apac","762":"apac","795":"apac","860":"apac","4":"apac","36":"apac",
+    "554":"apac","598":"apac","242":"apac","626":"apac","776":"apac","882":"apac",
+    "548":"apac","90":"apac",
+  };
+
+  const REGION_STYLE = {
+    americas: { fill:"rgba(0,200,215,0.15)",   stroke:"rgba(0,200,215,0.5)",   hover:"rgba(0,200,215,0.28)",   color:"#00c8d7" },
+    europe:   { fill:"rgba(77,217,230,0.17)",   stroke:"rgba(77,217,230,0.55)",  hover:"rgba(77,217,230,0.32)",   color:"#4dd9e6" },
+    mea:      { fill:"rgba(138,154,181,0.15)",  stroke:"rgba(138,154,181,0.45)", hover:"rgba(138,154,181,0.28)",  color:"#8a9ab5" },
+    apac:     { fill:"rgba(184,198,214,0.15)",  stroke:"rgba(184,198,214,0.45)", hover:"rgba(184,198,214,0.28)",  color:"#b8c6d6" },
+  } as const;
+
+  const markers: Array<{
+    coordinates: [number, number]; label: string; region: string;
+    lead?: boolean; major?: boolean;
+  }> = [
+    // Europe
+    { coordinates: [-0.1278,  51.5074], label: "London",        region: "europe", lead: true },
+    { coordinates: [ 2.3522,  48.8566], label: "Paris",         region: "europe", major: true },
+    { coordinates: [13.4050,  52.5200], label: "Berlin",        region: "europe", major: true },
+    { coordinates: [37.6173,  55.7558], label: "Moscow",        region: "europe" },
+    // Americas
+    { coordinates: [-74.0060, 40.7128], label: "New York",      region: "americas", major: true },
+    { coordinates: [-99.1332, 19.4326], label: "Mexico City",   region: "americas" },
+    { coordinates: [-46.6333,-23.5505], label: "São Paulo",     region: "americas", major: true },
+    { coordinates: [-58.3816,-34.6037], label: "Buenos Aires",  region: "americas" },
+    { coordinates: [-79.3832, 43.6532], label: "Toronto",       region: "americas" },
+    // MEA
+    { coordinates: [ 55.2708, 25.2048], label: "Dubai",         region: "mea", major: true },
+    { coordinates: [ 31.2357, 30.0444], label: "Cairo",         region: "mea" },
+    { coordinates: [  3.3792,  6.5244], label: "Lagos",         region: "mea" },
+    { coordinates: [ 36.8219, -1.2921], label: "Nairobi",       region: "mea" },
+    { coordinates: [ 28.0473,-26.2041], label: "Johannesburg",  region: "mea", major: true },
+    { coordinates: [ 46.6753, 24.6877], label: "Riyadh",        region: "mea" },
+    // APAC
+    { coordinates: [ 72.8777, 19.0760], label: "Mumbai",        region: "apac", major: true },
+    { coordinates: [121.4737, 31.2304], label: "Shanghai",      region: "apac", major: true },
+    { coordinates: [139.6917, 35.6895], label: "Tokyo",         region: "apac", major: true },
+    { coordinates: [103.8198,  1.3521], label: "Singapore",     region: "apac", major: true },
+    { coordinates: [151.2093,-33.8688], label: "Sydney",        region: "apac", major: true },
+    { coordinates: [106.8456, -6.2088], label: "Jakarta",       region: "apac" },
+    { coordinates: [100.5018, 13.7563], label: "Bangkok",       region: "apac" },
+  ];
+
+  const regions = [
+    { id: "americas", label: "Americas", count: "35+", color: "#00c8d7", desc: "North & South America" },
+    { id: "europe",   label: "Europe",   count: "50+", color: "#4dd9e6", desc: "UK, EU & Eastern Europe" },
+    { id: "mea",      label: "MEA",      count: "45+", color: "#8a9ab5", desc: "Middle East & Africa" },
+    { id: "apac",     label: "APAC",     count: "40+", color: "#b8c6d6", desc: "Asia Pacific & Oceania" },
+  ];
+
+  return (
+    <section id="coverage" className="py-28 relative overflow-hidden" style={{ background: "#0e1318" }}>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[350px] rounded-full bg-[#00c8d7]/[0.04] blur-[120px] pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-3xl mx-auto mb-14"
+        >
+          <div className="inline-flex items-center gap-3 text-xs tracking-[0.3em] uppercase text-[#00c8d7] font-bold mb-5 justify-center">
+            <span className="w-8 h-px bg-[#00c8d7]" />
+            Global Reach
+            <span className="w-8 h-px bg-[#00c8d7]" />
+          </div>
+          <h2 className="font-display text-4xl md:text-6xl font-bold text-[#e8f0f8] leading-[1.02] mb-5">
+            Operating across{" "}
+            <span
+              className="italic"
+              style={{
+                background: "linear-gradient(120deg,#e8f0f8 0%,#00c8d7 40%,#4dd9e6 60%,#e8f0f8 100%)",
+                backgroundSize: "200% 200%",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                animation: "gradShift 8s ease infinite",
+              }}
+            >
+              160+ countries
+            </span>
+          </h2>
+          <p className="text-[#e8f0f8]/55 leading-relaxed text-lg">
+            From London to Tokyo, New York to Dubai — UK-based customs expertise spanning APAC, MEA, Europe and the Americas via all modes of transport.
+          </p>
+        </motion.div>
+
+        {/* Map card */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative rounded-3xl overflow-hidden border mb-8"
+          style={{
+            background: "#060a0e",
+            borderColor: "rgba(0,200,215,0.15)",
+            boxShadow: "0 0 0 1px rgba(0,200,215,0.06), 0 40px 80px -20px rgba(0,0,0,0.7)",
+          }}
+        >
+          <ComposableMap
+            projection="geoNaturalEarth1"
+            projectionConfig={{ scale: 165, center: [10, 10] }}
+            style={{ width: "100%", height: "auto", display: "block" }}
+          >
+            {/* Ocean */}
+            <Sphere id="rsm-sphere" fill="#060a0e" stroke="rgba(0,200,215,0.07)" strokeWidth={0.5} />
+            {/* Lat/lon graticule */}
+            <Graticule stroke="rgba(232,240,248,0.045)" strokeWidth={0.35} />
+
+            {/* Countries — real borders from TopoJSON */}
+            <Geographies geography="/countries-110m.json">
+              {({ geographies }) =>
+                geographies.map((geo) => {
+                  const rid = REGION_MAP[String(geo.id)];
+                  const rs  = rid ? REGION_STYLE[rid as keyof typeof REGION_STYLE] : null;
+                  return (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      fill={rs ? rs.fill : "rgba(18,28,40,0.92)"}
+                      stroke={rs ? rs.stroke : "rgba(0,200,215,0.09)"}
+                      strokeWidth={0.45}
+                      style={{
+                        default: { outline: "none" },
+                        hover:   { outline: "none", fill: rs ? rs.hover : "rgba(26,38,52,0.95)" },
+                        pressed: { outline: "none" },
+                      }}
+                    />
+                  );
+                })
+              }
+            </Geographies>
+
+            {/* City markers */}
+            {markers.map((m, i) => {
+              const rs = REGION_STYLE[m.region as keyof typeof REGION_STYLE];
+              const col = rs.color;
+              return (
+                <Marker key={i} coordinates={m.coordinates}>
+                  {/* Pulse ring for London HQ */}
+                  {m.lead && (
+                    <circle r={20} fill="none" stroke={col} strokeWidth={0.8} opacity={0.5}>
+                      <animate attributeName="r"       from="7"  to="24"  dur="2.5s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" from="0.6" to="0"  dur="2.5s" repeatCount="indefinite" />
+                    </circle>
+                  )}
+                  {/* Dot */}
+                  <circle
+                    r={m.lead ? 6 : m.major ? 4 : 2.8}
+                    fill={col}
+                    stroke="#060a0e"
+                    strokeWidth={m.lead ? 2.5 : 1.5}
+                    style={{ filter: `drop-shadow(0 0 ${m.lead ? 12 : m.major ? 7 : 4}px ${col}cc)` }}
+                  />
+                  {/* Label */}
+                  {(m.lead || m.major) && (
+                    <text
+                      y={m.lead ? -11 : -8}
+                      textAnchor="middle"
+                      fill={m.lead ? "#e8f0f8" : col}
+                      fontSize={m.lead ? 8.5 : 6.5}
+                      fontWeight={m.lead ? "800" : "600"}
+                      fontFamily="Inter,sans-serif"
+                      paintOrder="stroke"
+                      stroke="#060a0e"
+                      strokeWidth={3}
+                    >
+                      {m.label}
+                    </text>
+                  )}
+                </Marker>
+              );
+            })}
+          </ComposableMap>
+
+          {/* Region label overlays */}
+          <div className="absolute inset-0 pointer-events-none select-none">
+            <span className="absolute top-5 left-[10%]  text-[9px] font-black tracking-[3.5px] text-[#00c8d7]/55">AMERICAS</span>
+            <span className="absolute top-5 left-[46%]  text-[9px] font-black tracking-[3.5px] text-[#4dd9e6]/55">EUROPE</span>
+            <span className="absolute top-[52%] left-[50%] text-[9px] font-black tracking-[3.5px] text-[#8a9ab5]/55">MEA</span>
+            <span className="absolute top-5 right-[10%] text-[9px] font-black tracking-[3.5px] text-[#b8c6d6]/55">APAC</span>
+          </div>
+
+          {/* Edge fade */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom,rgba(6,10,14,0.35) 0%,transparent 7%,transparent 93%,rgba(6,10,14,0.35) 100%)" }} />
+        </motion.div>
+
+        {/* Region stats */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4"
+        >
+          {regions.map((r) => (
+            <motion.div
+              key={r.id}
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16,1,0.3,1] } } }}
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              className="rounded-2xl p-5 border text-center"
+              style={{ background: "rgba(20,28,36,0.8)", borderColor: `${r.color}22` }}
+            >
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-3"
+                style={{ background: `${r.color}15`, border: `1px solid ${r.color}35` }}
+              >
+                <span className="w-2 h-2 rounded-full" style={{ background: r.color, boxShadow: `0 0 8px ${r.color}` }} />
+              </div>
+              <p className="font-display text-3xl font-bold mb-1" style={{ color: r.color }}>{r.count}</p>
+              <p className="text-sm font-bold text-[#e8f0f8] mb-1">{r.label}</p>
+              <p className="text-[10px] text-[#7a8fa6] leading-relaxed">{r.desc}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -1635,19 +1821,12 @@ function AboutLeftPanel() {
 
   const radius = 68;
   const circumference = 2 * Math.PI * radius;
-  const dashOffset = gaugeAnimated ? 0 : circumference;
+  const dashOffset = gaugeAnimated ? circumference * 0.02 : circumference;
 
   const stats = [
-    { value: "£284K", label: "Duty Saved",    color: "#4dd9e6" },
-    { value: "500+",  label: "Clients Served", color: "#00c8d7" },
-    { value: "94%",   label: "Retention Rate", color: "#b8c6d6" },
-  ];
-
-  const recentActivity = [
-    { route: "UK → Germany",   status: "Cleared",    time: "2 min ago",  color: "#34d399" },
-    { route: "UK → USA",       status: "In Transit",  time: "8 min ago",  color: "#00c8d7" },
-    { route: "UK → Japan",     status: "Cleared",    time: "15 min ago", color: "#34d399" },
-    { route: "UK → Australia", status: "Processing", time: "22 min ago", color: "#fbbf24" },
+    { value: "Free",  label: "Initial Consult", color: "#4dd9e6" },
+    { value: "160+",  label: "Countries",        color: "#00c8d7" },
+    { value: "98%",   label: "HMRC Aligned",     color: "#b8c6d6" },
   ];
 
   const certs = [
@@ -1656,7 +1835,7 @@ function AboutLeftPanel() {
     { label: "ICC",  desc: "Int'l Chamber" },
     { label: "BIFA", desc: "Freight Assoc." },
     { label: "ISO",  desc: "Standards Org." },
-    { label: "FCDO", desc: "Foreign Office" },
+    { label: "CDS",  desc: "UK Customs Decl." },
   ];
 
   return (
@@ -1682,16 +1861,13 @@ function AboutLeftPanel() {
         <div className="absolute top-0 right-0 w-56 h-56 rounded-full bg-[#00c8d7]/[0.09] blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#4dd9e6]/[0.05] blur-2xl pointer-events-none" />
 
-        {/* Live badge */}
+        {/* Header badge */}
         <div className="flex items-center justify-between mb-7 relative z-10">
           <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-[#00c8d7] font-bold">
-            <span className="relative flex w-2 h-2">
-              <span className="absolute inset-0 rounded-full bg-emerald-400 opacity-75 animate-ping" />
-              <span className="relative rounded-full w-2 h-2 bg-emerald-400" />
-            </span>
-            Live Operations
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00c8d7]" />
+            Express Customs
           </div>
-          <span className="text-[10px] text-[#7a8fa6] font-semibold tracking-wider">London · GMT</span>
+          <span className="text-[10px] text-[#7a8fa6] font-semibold tracking-wider">London · UK</span>
         </div>
 
         {/* ── SVG compliance gauge ── */}
@@ -1730,7 +1906,7 @@ function AboutLeftPanel() {
             </svg>
             {/* Center label */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="font-display text-4xl font-bold text-[#e8f0f8] leading-none">100%</span>
+              <span className="font-display text-4xl font-bold text-[#e8f0f8] leading-none">98%</span>
               <span className="text-[10px] text-[#00c8d7] uppercase tracking-[0.2em] font-bold mt-2">Compliance</span>
               <span className="text-[9px] text-[#7a8fa6] tracking-widest mt-0.5">HMRC Aligned</span>
             </div>
@@ -1757,41 +1933,55 @@ function AboutLeftPanel() {
           ))}
         </div>
 
-        {/* Divider */}
-        <div className="h-px bg-[#e8f0f8]/8 mb-5 relative z-10" />
-
-        {/* ── Activity feed ── */}
-        <div className="space-y-2 relative z-10">
-          {recentActivity.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -12 }}
-              animate={visible ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.35 + i * 0.09 }}
-              className="flex items-center justify-between px-3 py-2.5 rounded-xl"
-              style={{
-                background: "rgba(232,240,248,0.03)",
-                border: "1px solid rgba(232,240,248,0.06)",
-              }}
-            >
-              <div className="flex items-center gap-2.5">
-                <span
-                  className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ background: item.color, boxShadow: `0 0 6px ${item.color}90` }}
-                />
-                <div>
-                  <p className="text-xs font-semibold text-[#e8f0f8]">{item.route}</p>
-                  <p className="text-[9px] text-[#7a8fa6]">{item.time}</p>
-                </div>
-              </div>
-              <span
-                className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                style={{ background: item.color + "22", color: item.color }}
+        {/* ── Transport modes ── */}
+        <div className="relative z-10 mb-5">
+          <p className="text-[10px] text-[#7a8fa6] uppercase tracking-[0.25em] font-bold mb-3">All Modes of Transport</p>
+          <div className="grid grid-cols-4 gap-2">
+            {[
+              {
+                label: "Air",
+                icon: (
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                  </svg>
+                ),
+              },
+              { label: "Sea",  icon: <FiAnchor size={16} /> },
+              { label: "Road", icon: <FiTruck size={16} /> },
+              {
+                label: "Rail",
+                icon: (
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4.03-4-8-4zm-3.5 15c-.83 0-1.5-.67-1.5-1.5S7.67 14 8.5 14s1.5.67 1.5 1.5S9.33 17 8.5 17zm7 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h13v5z"/>
+                  </svg>
+                ),
+              },
+            ].map(({ label, icon }) => (
+              <div
+                key={label}
+                className="flex flex-col items-center gap-1.5 py-2.5 rounded-xl text-center"
+                style={{ background: "rgba(0,200,215,0.06)", border: "1px solid rgba(0,200,215,0.14)" }}
               >
-                {item.status}
-              </span>
-            </motion.div>
-          ))}
+                <span className="text-[#00c8d7]">{icon}</span>
+                <span className="text-[9px] text-[#7a8fa6] font-bold uppercase tracking-wide">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Office hours ── */}
+        <div className="relative z-10 pt-4 border-t border-[#e8f0f8]/8">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] text-[#7a8fa6] uppercase tracking-[0.25em] font-bold mb-1">Office Hours</p>
+              <p className="text-xs text-[#e8f0f8] font-semibold">Mon – Fri &nbsp; 9:00 – 18:00 GMT</p>
+              <p className="text-[10px] text-[#7a8fa6] mt-0.5">Sat by appointment</p>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-[#00c8d7]"><FiClock size={18} /></span>
+              <span className="text-[9px] text-emerald-400 font-bold">Free call</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2047,7 +2237,7 @@ export default function Home() {
         {/* Side badges — desktop */}
         <div className="hidden lg:flex absolute top-32 left-10 flex-col gap-3 text-[10px] tracking-[0.3em] uppercase text-[#e8f0f8]/25 font-semibold">
           <div className="rotate-180 [writing-mode:vertical-rl] flex items-center gap-3">
-            <span>Est. 2009</span>
+            <span>Customs Experts</span>
             <span className="w-8 h-px bg-[#e8f0f8]/25" />
             <span>United Kingdom</span>
           </div>
@@ -2175,25 +2365,10 @@ export default function Home() {
                   ))}
                 </div>
                 <div>
-                  <div className="flex items-center gap-1 mb-1">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-4 h-4 text-[#00c8d7]"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                    <span className="text-[#e8f0f8] text-sm font-bold ml-1.5">
-                      5.0
-                    </span>
-                  </div>
                   <p className="text-[#7a8fa6] text-sm">
                     Trusted by{" "}
                     <span className="font-semibold text-[#e8f0f8]">
-                      500+ UK businesses
+                      UK importers &amp; exporters
                     </span>
                   </p>
                 </div>
@@ -2241,46 +2416,37 @@ export default function Home() {
                 </div>
               </div>
 
-              <div
-                className="hidden sm:block absolute top-[38%] -left-2 glass-card rounded-2xl p-4 w-48 shadow-[0_18px_40px_-10px_rgba(0,0,0,0.6)]"
-                style={{ animation: "floatY 6s ease-in-out infinite 1s" }}
-              >
-                <p className="text-[10px] text-[#7a8fa6] uppercase tracking-widest mb-1 font-semibold">
-                  Duty Saved YTD
-                </p>
-                <p className="font-display text-3xl font-bold text-[#e8f0f8]">
-                  £<Counter target={284} suffix="K" />
-                </p>
-                <div className="mt-2 h-1.5 bg-[#e8f0f8]/10 rounded-full overflow-hidden">
-                  <div className="h-full w-3/4 bg-[#00c8d7] rounded-full" />
-                </div>
-              </div>
 
               <div
                 className="hidden sm:block absolute bottom-6 right-0 glass-card rounded-2xl p-4 w-56 shadow-[0_18px_40px_-10px_rgba(0,0,0,0.6)]"
                 style={{ animation: "floatY 5.5s ease-in-out infinite 0.5s" }}
               >
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-7 h-7 rounded-lg bg-[#00c8d7]/15 flex items-center justify-center text-[#00c8d7]">
+                    <FiClock size={14} />
+                  </div>
                   <p className="text-[10px] text-[#7a8fa6] font-semibold uppercase tracking-widest">
-                    Live Shipments
+                    Office Hours
                   </p>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 </div>
                 {[
-                  ["UK → DE", "2 min"],
-                  ["UK → US", "8 min"],
-                  ["UK → JP", "14 min"],
-                ].map(([r, t]) => (
+                  ["Mon – Fri", "9:00 – 18:00"],
+                  ["Sat", "By appointment"],
+                ].map(([day, hrs]) => (
                   <div
-                    key={r}
-                    className="flex items-center justify-between py-2 text-xs border-t border-[#e8f0f8]/8 first:border-0"
+                    key={day}
+                    className="flex items-center justify-between py-1.5 text-xs border-t border-[#e8f0f8]/8 first:border-0"
                   >
-                    <span className="text-[#e8f0f8] font-semibold">{r}</span>
+                    <span className="text-[#e8f0f8] font-semibold">{day}</span>
                     <span className="text-[#00c8d7] font-semibold text-[10px]">
-                      {t}
+                      {hrs}
                     </span>
                   </div>
                 ))}
+                <div className="mt-2 pt-2 border-t border-[#e8f0f8]/8 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span className="text-[10px] text-emerald-400 font-semibold">Free initial call</span>
+                </div>
               </div>
 
               <div
@@ -2398,9 +2564,9 @@ export default function Home() {
             </p>
             <div className="grid grid-cols-3 gap-6 mb-9">
               {[
-                ["15+", "Years"],
-                ["500+", "Clients"],
-                ["98%", "Success"],
+                ["Free", "Consultation"],
+                ["160+", "Countries"],
+                ["98%", "HMRC Aligned"],
               ].map(([n, l]) => (
                 <div key={l} className="border-l-2 border-[#00c8d7] pl-4">
                   <p className="font-display text-4xl font-bold text-[#e8f0f8]">
@@ -2434,6 +2600,11 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      <div className="section-divider max-w-7xl mx-auto" />
+
+      {/* ═══ GLOBAL COVERAGE MAP ══════════════════════════════════════ */}
+      <GlobalCoverageSection />
 
       <div className="section-divider max-w-7xl mx-auto" />
 
@@ -2490,7 +2661,7 @@ export default function Home() {
               },
               {
                 q: "How much does a consultation cost?",
-                a: "Your initial consultation is completely free of charge and carries no obligation. We use this time to understand your business, identify quick wins, and recommend the most appropriate solutions — as outlined in our five-step service structure.",
+                a: "Your initial consultation is completely free of charge and carries no obligation. Post-consultation fees are tailored to your business size, trade volume, and the scope of services required — from short-term project engagements to ongoing retainer arrangements. We provide a bespoke, transparent quote before any work begins.",
               },
               {
                 q: "Do you only work with UK businesses?",
