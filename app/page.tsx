@@ -804,7 +804,7 @@ function ServicesSection() {
 /* ═══════════════════════════════════════════════════════════════════════════
    WORKFLOW SECTION
    ═══════════════════════════════════════════════════════════════════════════ */
-function WorkflowSection({ onBookClick }: { onBookClick: () => void }) {
+function WorkflowSection({ onBookClick }: { onBookClick: (e?: React.MouseEvent) => void }) {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
   const lineScaleY = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
