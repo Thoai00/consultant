@@ -7,8 +7,6 @@ import {
   FiBarChart2,
   FiBook,
   FiCheckCircle,
-  FiCheckSquare,
-  FiClipboard,
   FiClock,
   FiCrosshair,
   FiDollarSign,
@@ -153,24 +151,18 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                     background: "linear-gradient(145deg, #3d5570 0%, #2c3f57 40%, #1e2e42 100%)",
                   }}
                 >
-                  {/* Subtle freight/container overlay */}
                   <div
                     className="absolute inset-0 opacity-[0.12]"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                     }}
                   />
-
-                  {/* Top accent bar */}
                   <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(90deg, #e8823a, #f0a060)" }} />
-
                   <div className="relative z-10">
-                    {/* Tag */}
                     <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-bold text-white/60 mb-8">
                       <span className="w-5 h-px bg-white/40" />
                       New Customers
                     </div>
-
                     <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-tight mb-2">
                       Schedule Your
                     </h2>
@@ -178,10 +170,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                       <span style={{ color: "#e8823a" }}>Free</span>{" "}
                       <span className="text-white">Consultation</span>
                     </h2>
-
-                    {/* Divider */}
                     <div className="w-16 h-0.5 mb-7" style={{ background: "#e8823a" }} />
-
                     <p className="text-white/65 text-sm leading-relaxed mb-10 max-w-xs">
                       Let us know a little bit about how we can help and one of our
                       customs experts will be in touch to arrange a consultation at
@@ -191,8 +180,6 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                       Contact us using the details below, or simply fill out the
                       contact form:
                     </p>
-
-                    {/* Contact details */}
                     <div className="flex flex-col gap-4">
                       <a
                         href="tel:+447886280525"
@@ -220,8 +207,6 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                       </a>
                     </div>
                   </div>
-
-                  {/* Bottom logo watermark */}
                   <div className="relative z-10 mt-10">
                     <div className="opacity-20">
                       <Image src="/logo.png" alt="Express Customs" width={130} height={32} className="object-contain" />
@@ -237,23 +222,18 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                     maxHeight: "90vh",
                   }}
                 >
-                  {/* Close button */}
                   <button
                     onClick={handleClose}
                     className="absolute top-5 right-5 z-10 w-8 h-8 rounded-full flex items-center justify-center text-[#64748b] hover:text-[#1a2535] hover:bg-[#e2e8f0] transition-all"
                   >
                     <FiX size={17} />
                   </button>
-
                   <div className="p-8 md:p-10 flex flex-col flex-1">
-                    {/* Header */}
                     <div className="mb-7">
                       <h3 className="font-display text-2xl font-bold text-[#1a2535] mb-1">Get in Touch</h3>
                       <p className="text-sm text-[#64748b]">Complete the form and we&apos;ll respond within one business day.</p>
                     </div>
-
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4 flex-1">
-                      {/* Row 1 */}
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] text-[#64748b] uppercase tracking-[0.22em] font-bold mb-1.5">
@@ -282,8 +262,6 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                           />
                         </div>
                       </div>
-
-                      {/* Row 2 */}
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] text-[#64748b] uppercase tracking-[0.22em] font-bold mb-1.5">
@@ -311,8 +289,6 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                           />
                         </div>
                       </div>
-
-                      {/* Row 3 — Description */}
                       <div>
                         <label className="block text-[10px] text-[#64748b] uppercase tracking-[0.22em] font-bold mb-1.5">
                           Brief Description of Requirements
@@ -325,8 +301,6 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                           className={`${inputClass} resize-none`}
                         />
                       </div>
-
-                      {/* Privacy checkbox */}
                       <div className="flex items-start gap-3 mt-1">
                         <div className="relative mt-0.5 flex-shrink-0">
                           <input
@@ -364,8 +338,6 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                           </a>
                         </label>
                       </div>
-
-                      {/* Submit */}
                       <motion.button
                         type="submit"
                         whileHover={{ scale: form.agreed ? 1.015 : 1 }}
@@ -386,7 +358,6 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                           <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                       </motion.button>
-
                       <p className="text-center text-[10px] text-[#94a3b8]">
                         No obligation · We respond within 1 business day
                       </p>
@@ -395,7 +366,6 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                 </div>
               </div>
             ) : (
-              /* ── SUCCESS STATE ── */
               <div
                 className="flex flex-col items-center justify-center text-center py-20 px-10"
                 style={{ background: "linear-gradient(145deg, #1e2e42 0%, #2c3f57 100%)", minHeight: 480 }}
@@ -406,14 +376,12 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   className="flex flex-col items-center"
                 >
-                  {/* Close */}
                   <button
                     onClick={handleClose}
                     className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all"
                   >
                     <FiX size={17} />
                   </button>
-
                   <div
                     className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
                     style={{
@@ -804,6 +772,9 @@ function ServicesSection() {
 /* ═══════════════════════════════════════════════════════════════════════════
    WORKFLOW SECTION
    ═══════════════════════════════════════════════════════════════════════════ */
+/* FIX: onBookClick accepts an optional MouseEvent so both the nav button
+   (which passes the event) and this internal button (which also passes it)
+   satisfy TypeScript without a mismatch. */
 function WorkflowSection({ onBookClick }: { onBookClick: (e?: React.MouseEvent) => void }) {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
@@ -1235,8 +1206,10 @@ export default function Home() {
 
   const { ref: contactRef, visible: contactVisible } = useReveal();
 
-  const handleBookClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+  /* FIX: e? makes the event optional so this function satisfies both
+     the WorkflowSection prop type and the standard button onClick type. */
+  const handleBookClick = (e?: React.MouseEvent) => {
+    e?.preventDefault();
     setFormOpen(true);
   };
 
