@@ -15,7 +15,6 @@ import {
   FiHome,
   FiLink,
   FiLinkedin,
-  FiTwitter,
   FiInstagram,
   FiFacebook,
   FiSearch,
@@ -400,7 +399,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                     <span className="font-semibold" style={{ color: "#e8823a" }}>
                       {form.fullName}
                     </span>
-                    . A customs expert will be in touch within one business day.
+                    . A customs expert will be in touch as soon as possible.
                   </p>
                   <button
                     onClick={handleClose}
@@ -1000,9 +999,7 @@ function GlobalCoverageSection() {
 
 /* ─── TESTIMONIALS ───────────────────────────────────────────────────────── */
 const TESTIMONIALS = [
-  { quote: "Working with Express Customs transformed how we approach international trade. Their proactive approach saved us thousands in duties and gave us complete peace of mind on every shipment.", name: "James Mitchell", role: "Operations Director, Global Importers Ltd", initials: "JM" },
-  { quote: "The tariff classification expertise alone has saved our business significant sums annually. Their team is incredibly responsive and genuinely invested in our success.", name: "Sarah Thompson", role: "Head of Logistics, TechExport UK", initials: "ST" },
-  { quote: "From documentation support to staff training, Express Customs has been indispensable since Brexit. We couldn't navigate the complexity without them.", name: "David Chen", role: "CEO, Pacific Bridge Trading", initials: "DC" },
+  { quote: "The tariff classification expertise alone has saved our business significant sums annually. Their team is incredibly responsive and genuinely invested in our success.", name: "Mohammad Bari", role: " Director, InfoSecWorld Ltd", initials: "MB" },
 ];
 
 function TestimonialSection() {
@@ -1146,7 +1143,6 @@ function ConsultancyVisual() {
    ═══════════════════════════════════════════════════════════════════════════ */
 const SOCIALS = [
   { Icon: FiLinkedin, label: "LinkedIn",  href: "https://linkedin.com",  color: "#0077B5" },
-  { Icon: FiTwitter,  label: "X / Twitter", href: "https://twitter.com", color: "#1DA1F2" },
   { Icon: FiInstagram, label: "Instagram", href: "https://instagram.com", color: "#E1306C" },
   { Icon: FiFacebook,  label: "Facebook",  href: "https://facebook.com", color: "#1877F2" },
 ];
