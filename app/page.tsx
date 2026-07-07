@@ -136,7 +136,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-full max-w-5xl rounded-2xl shadow-2xl overflow-y-auto md:overflow-hidden"
             onClick={(e) => e.stopPropagation()}
             style={{ maxHeight: "90vh" }}
           >
@@ -145,7 +145,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
 
                 {/* ── LEFT PANEL ── */}
                 <div
-                  className="relative flex flex-col justify-between p-10 overflow-hidden"
+                  className="relative flex flex-col justify-between p-6 sm:p-10 overflow-hidden"
                   style={{
                     background: "linear-gradient(145deg, #3d5570 0%, #2c3f57 40%, #1e2e42 100%)",
                   }}
@@ -215,25 +215,24 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
 
                 {/* ── RIGHT PANEL — Form ── */}
                 <div
-                  className="relative flex flex-col overflow-y-auto"
+                  className="relative flex flex-col md:overflow-y-auto md:max-h-[90vh]"
                   style={{
                     background: "rgba(244, 247, 252, 0.97)",
-                    maxHeight: "90vh",
                   }}
                 >
                   <button
                     onClick={handleClose}
-                    className="absolute top-5 right-5 z-10 w-8 h-8 rounded-full flex items-center justify-center text-[#64748b] hover:text-[#1a2535] hover:bg-[#e2e8f0] transition-all"
+                    className="absolute top-4 right-4 sm:top-5 sm:right-5 z-10 w-8 h-8 rounded-full flex items-center justify-center text-[#64748b] hover:text-[#1a2535] hover:bg-[#e2e8f0] transition-all"
                   >
                     <FiX size={17} />
                   </button>
-                  <div className="p-8 md:p-10 flex flex-col flex-1">
-                    <div className="mb-7">
-                      <h3 className="font-display text-2xl font-bold text-[#1a2535] mb-1">Get in Touch</h3>
+                  <div className="p-6 sm:p-8 md:p-10 flex flex-col flex-1">
+                    <div className="mb-7 pr-8">
+                      <h3 className="font-display text-xl sm:text-2xl font-bold text-[#1a2535] mb-1">Get in Touch</h3>
                       <p className="text-sm text-[#64748b]">Complete the form and we&apos;ll respond within one business day.</p>
                     </div>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4 flex-1">
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] text-[#64748b] uppercase tracking-[0.22em] font-bold mb-1.5">
                             Full Name
@@ -261,7 +260,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                           />
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] text-[#64748b] uppercase tracking-[0.22em] font-bold mb-1.5">
                             Email Address
@@ -366,8 +365,8 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
               </div>
             ) : (
               <div
-                className="flex flex-col items-center justify-center text-center py-20 px-10"
-                style={{ background: "linear-gradient(145deg, #1e2e42 0%, #2c3f57 100%)", minHeight: 480 }}
+                className="flex flex-col items-center justify-center text-center py-14 px-6 sm:py-20 sm:px-10"
+                style={{ background: "linear-gradient(145deg, #1e2e42 0%, #2c3f57 100%)", minHeight: 420 }}
               >
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -377,24 +376,24 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                 >
                   <button
                     onClick={handleClose}
-                    className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                    className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all"
                   >
                     <FiX size={17} />
                   </button>
                   <div
-                    className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mb-6"
                     style={{
                       background: "rgba(232,130,58,0.15)",
                       border: "2px solid rgba(232,130,58,0.5)",
                       boxShadow: "0 0 40px rgba(232,130,58,0.25)",
                     }}
                   >
-                    <svg className="w-9 h-9" style={{ color: "#e8823a" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+                    <svg className="w-8 h-8 sm:w-9 sm:h-9" style={{ color: "#e8823a" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="font-display text-3xl font-bold text-white mb-3">Request Sent!</h3>
-                  <p className="text-white/55 leading-relaxed mb-8 max-w-xs">
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-white mb-3">Request Sent!</h3>
+                  <p className="text-white/55 leading-relaxed mb-8 max-w-xs text-sm sm:text-base">
                     Thank you,{" "}
                     <span className="font-semibold" style={{ color: "#e8823a" }}>
                       {form.fullName}
@@ -822,14 +821,38 @@ function WorkflowSection({ onBookClick }: { onBookClick: (e?: React.MouseEvent) 
             })}
           </div>
         </div>
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mt-16">
-          <div className="inline-flex flex-col items-center gap-4 rounded-3xl p-10 border" style={{ background: "rgba(20,28,36,0.8)", borderColor: "rgba(0,200,215,0.15)" }}>
-            <p className="font-display text-2xl font-semibold text-[#e8f0f8]">Ready to start the process?</p>
-            <p className="text-[#7a8fa6] max-w-md text-center">Book your free Initial Assessment today. No obligation, no jargon — just clear, expert guidance from day one.</p>
-            <button onClick={onBookClick} className="inline-flex items-center gap-2 font-bold text-sm rounded-full px-8 py-4 bg-[#00c8d7] text-[#080c10] hover:bg-[#4dd9e6] transition-all hover:shadow-xl hover:shadow-[#00c8d7]/25">
-              Book Free Initial Consultation — Mon–Fri 9–5
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </button>
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mt-16 px-4 sm:px-0">
+          <div className="relative flex flex-col items-center gap-4 rounded-3xl p-6 sm:p-10 md:p-12 border overflow-hidden w-full sm:w-auto max-w-xl mx-auto" style={{ background: "linear-gradient(160deg, rgba(20,28,36,0.92) 0%, rgba(12,17,22,0.95) 100%)", borderColor: "rgba(0,200,215,0.18)" }}>
+            <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-[#00c8d7]/10 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-56 h-56 rounded-full bg-[#4dd9e6]/8 blur-3xl pointer-events-none" />
+
+            <div className="relative w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: "rgba(0,200,215,0.12)", border: "1px solid rgba(0,200,215,0.3)", boxShadow: "0 0 24px rgba(0,200,215,0.15)" }}>
+              <FiCheckCircle size={24} className="text-[#00c8d7]" />
+            </div>
+
+            <div className="relative inline-flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-[#00c8d7] font-bold">
+              <span className="relative flex w-2 h-2">
+                <span className="absolute inset-0 rounded-full bg-[#00c8d7] opacity-75" style={{ animation: "pulseRing 1.6s ease-out infinite" }} />
+                <span className="relative rounded-full w-2 h-2 bg-[#00c8d7]" />
+              </span>
+              Booking Now Open
+            </div>
+            <p className="relative font-display text-xl sm:text-2xl md:text-3xl font-semibold text-[#e8f0f8] text-center leading-tight">Ready to start the process?</p>
+            <p className="relative text-[#7a8fa6] max-w-md text-center text-sm sm:text-base">Book your free Initial Assessment today. No obligation, no jargon — just clear, expert guidance from day one.</p>
+
+            <motion.button
+              onClick={onBookClick}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="relative w-full sm:w-auto flex items-center justify-center gap-2 rounded-full px-8 py-4 font-bold text-sm sm:text-base text-[#080c10] shadow-lg transition-shadow duration-300 hover:shadow-2xl hover:shadow-[#00c8d7]/30 whitespace-nowrap mt-1"
+              style={{ background: "linear-gradient(120deg, #00c8d7 0%, #4dd9e6 100%)" }}
+            >
+              Book Free Consultation
+              <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </motion.button>
+            <div className="relative flex items-center gap-1.5 text-xs font-semibold text-[#7a8fa6]">
+              <FiClock size={13} className="text-[#00c8d7] flex-shrink-0" /> Mon–Fri · 9:00–17:00
+            </div>
           </div>
         </motion.div>
       </div>
@@ -1070,7 +1093,7 @@ function ConsultancyVisual() {
           <span className="text-[10px] text-[#7a8fa6]">360° Coverage</span>
         </div>
         <div className="flex justify-center">
-          <svg viewBox="0 0 300 300" width="300" height="300" style={{ overflow: "visible" }}>
+          <svg viewBox="0 0 300 300" className="w-full max-w-[300px] h-auto" style={{ overflow: "visible" }}>
             <defs>
               <radialGradient id="cvGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#00c8d7" stopOpacity="0.15" />
@@ -1327,7 +1350,7 @@ export default function Home() {
                 <span className="text-[#00c8d7]">HMRC Aligned</span>
               </div>
 
-              <h1 className="font-display text-[3rem] md:text-[5rem] font-bold leading-[0.92] mb-8 text-[#e8f0f8]">
+              <h1 className="font-display text-[2.5rem] sm:text-[3.25rem] md:text-[5rem] font-bold leading-[0.95] md:leading-[0.92] mb-8 text-[#e8f0f8]">
                 <SplitText text="Navigate" /><br />
                 <span className="relative inline-block">
                   <SplitText text="Customs" className="grad-text italic" delay={0.15} />
@@ -1474,7 +1497,7 @@ export default function Home() {
       {/* ═══ CONTACT ══════════════════════════════════════════════════ */}
       <section id="contact" className="py-28 bg-[#080c10] relative overflow-hidden">
         <div ref={contactRef} className="max-w-6xl mx-auto px-6 lg:px-10" style={{ opacity: contactVisible ? 1 : 0, transform: contactVisible ? "translateY(0)" : "translateY(40px)", transition: "all 0.9s ease" }}>
-          <TiltCard className="relative border rounded-[2.5rem] p-10 md:p-16 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]" style={{ background: "rgba(20,28,36,0.92)", borderColor: "rgba(0,200,215,0.18)" } as React.CSSProperties} intensity={3}>
+          <TiltCard className="relative border rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-16 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]" style={{ background: "rgba(20,28,36,0.92)", borderColor: "rgba(0,200,215,0.18)" } as React.CSSProperties} intensity={3}>
             <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#00c8d7]/12 blur-3xl" />
             <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-[#4dd9e6]/6 blur-3xl" />
             <div className="relative grid md:grid-cols-2 gap-10 items-center">
