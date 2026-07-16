@@ -280,6 +280,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                           </label>
                           <input
                             type="tel"
+                            required
                             value={form.phone}
                             onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                             placeholder="Please leave a contact number"
@@ -293,6 +294,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                         </label>
                         <textarea
                           rows={5}
+                          required
                           value={form.description}
                           onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                           placeholder="Tell us how we can help"
