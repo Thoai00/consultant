@@ -1237,11 +1237,10 @@ export default function Home() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@300;400;500;600;700&display=swap');
         :root { scroll-behavior: smooth; }
         * { -webkit-font-smoothing: antialiased; }
-        body { margin:0; background:#080c10; color:#e8f0f8; font-family:'Inter',sans-serif; overflow-x:hidden; cursor:auto; }
-        .font-display { font-family:'Fraunces',serif; letter-spacing:-0.025em; }
+        body { margin:0; background:#080c10; color:#e8f0f8; font-family:var(--font-inter),sans-serif; overflow-x:hidden; cursor:auto; }
+        .font-display { font-family:var(--font-fraunces),serif; letter-spacing:-0.025em; }
 
         .grad-text {
           background: linear-gradient(120deg,#e8f0f8 0%,#00c8d7 40%,#4dd9e6 60%,#e8f0f8 100%);

@@ -1,29 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const SITE_URL = "https://expresscustomsconsulting.com";
+const CANONICAL_URL = `${SITE_URL}/`;
 const SITE_NAME = "Express Customs Consulting UK Ltd";
+const TAGLINE = "Navigate Customs with Confidence";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default:
-      "UK Customs Consultants | HMRC Compliance, Tariffs & Duty Advice | Express Customs Consulting",
+    default: "Express Customs Consulting | UK Customs & HMRC Experts",
     template: "%s | Express Customs Consulting UK Ltd",
   },
   description:
-    "UK-based customs consultancy helping importers and exporters with HMRC compliance, tariff classification & HS codes, customs documentation, duty & tax optimisation, risk audits and staff training. Book a free consultation.",
+    "Navigate customs with confidence. Chelmsford-based UK consultancy: HMRC compliance, tariff classification, duty optimisation, audits & training. Free consultation.",
   keywords: [
     "customs consultancy UK",
     "HMRC compliance consultants",
@@ -53,17 +57,12 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     locale: "en_GB",
-    url: SITE_URL,
     siteName: SITE_NAME,
-    title: "UK Customs Consultants | HMRC Compliance, Tariffs & Duty Advice",
-    description:
-      "Compliance, tariff classification, documentation, duty optimisation, risk audits and training â€” one expert customs team for UK importers and exporters.",
+    title: `${SITE_NAME} | UK Customs Consultants`,
+    description: `${TAGLINE}. Compliance, tariff classification, documentation, duty optimisation, risk audits and training - one expert UK customs team based in Chelmsford, Essex.`,
     images: [
       {
         url: "/logo.png",
@@ -75,9 +74,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "UK Customs Consultants | HMRC Compliance, Tariffs & Duty Advice",
-    description:
-      "Compliance, tariff classification, documentation, duty optimisation, risk audits and training â€” one expert customs team for UK importers and exporters.",
+    title: `${SITE_NAME} | UK Customs Consultants`,
+    description: `${TAGLINE}. Compliance, tariff classification, documentation, duty optimisation, risk audits and training - one expert UK customs team based in Chelmsford, Essex.`,
     images: ["/logo.png"],
   },
   robots: {
@@ -134,11 +132,20 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   name: SITE_NAME,
-  url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
+  slogan: TAGLINE,
+  url: CANONICAL_URL,
+  logo: `${SITE_URL}/fav.png`,
   image: `${SITE_URL}/logo.png`,
   telephone: "+447886280525",
   email: "info.expresscustoms26@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "11 Moortown Place",
+    addressLocality: "Chelmsford",
+    addressRegion: "Essex",
+    postalCode: "CM3 3FZ",
+    addressCountry: "GB",
+  },
   areaServed: {
     "@type": "Country",
     name: "United Kingdom",
@@ -174,6 +181,53 @@ const jsonLd = {
   })),
 };
 
+const FAQ_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What services does Express Customs Consulting offer?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "We provide end-to-end customs solutions: compliance & regulations, tariff classification & duty advice, import/export documentation, duty & tax optimisation, risk management & audits, and training & ongoing support. Every service is tailored to your specific industry and trade routes.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does a consultation cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Your initial consultation is completely free of charge and carries no obligation. Post-consultation fees are tailored to your business size, trade volume, and the scope of services required - from short-term project engagements to ongoing retainer arrangements. We provide a bespoke, transparent quote before any work begins.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do you only work with UK businesses?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Our base is in the UK, but our expertise spans global trade. We assist UK businesses trading internationally as well as overseas companies trading into the UK market.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How quickly can you onboard a new client?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Most engagements move from initial assessment to active implementation within 14 days. Urgent compliance issues are escalated and handled within 48 hours.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can you train our in-house team?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Absolutely. We run bespoke training programmes - including post-Brexit briefings, regulatory update workshops, and on-demand expert advisory - to empower your team to handle day-to-day customs operations confidently and independently.",
+      },
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -182,12 +236,18 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <link rel="canonical" href={CANONICAL_URL} />
+        <meta property="og:url" content={CANONICAL_URL} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSONLD) }}
         />
         {children}
       </body>
