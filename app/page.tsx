@@ -1567,7 +1567,7 @@ export default function Home() {
               <ul className="space-y-3 text-sm">
                 <li><a href="tel:+447886280525" className="hover:text-[#00c8d7] transition-colors">+44 7886 280525</a></li>
                 <li><a href="mailto:info.expresscustoms26@gmail.com" className="hover:text-[#00c8d7] transition-colors break-all">info.expresscustoms26@gmail.com</a></li>
-                <li className="flex items-center gap-1.5 text-[#e8f0f8]/25"><FiFlag size={12} /> United Kingdom</li>
+                <li className="flex items-center gap-1.5 text-[#e8f0f8]/25">11 Moortown place, Chelmsford, Essex, CM3 3FZ</li>
               </ul>
             </div>
           </div>
