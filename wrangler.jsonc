@@ -1,6 +1,6 @@
 {
   "main": ".open-next/worker.js",
-  "name": "expresscustoms",
+  "name": "consultant",
   "compatibility_date": "2026-07-16",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
