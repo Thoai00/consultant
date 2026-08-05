@@ -93,7 +93,7 @@ function useScrollProgress() {
 }
 
 /* ─── REDESIGNED SPLIT CONTACT FORM MODAL ───────────────────────────────── */
-const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/info@expresscustomsconsulting.com";
+const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/3ff9485dd39c2d2ad7357296ba216c25";
 
 function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
@@ -221,7 +221,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                         +44 7886 280525
                       </a>
                       <a
-                        href="mailto:info.expresscustoms26@gmail.com"
+                        href="mailto:info@expresscustomsconsulting.com"
                         className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition-colors group"
                       >
                         <div
@@ -230,7 +230,7 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                         >
                           <FiMail size={15} className="text-white/70" />
                         </div>
-                        <span className="break-all">info.expresscustoms26@gmail.com</span>
+                        <span className="break-all">info@expresscustomsconsulting.com</span>
                       </a>
                     </div>
                   </div>
@@ -1547,9 +1547,9 @@ export default function Home() {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                     +44 7886 280525
                   </MagneticLink>
-                  <MagneticLink href="mailto:info.expresscustoms26@gmail.com" className="inline-flex items-center gap-3 bg-[#e8f0f8]/6 border border-[#e8f0f8]/12 text-[#e8f0f8] font-semibold px-5 py-3.5 rounded-full text-sm hover:bg-[#e8f0f8]/10 transition-all">
+                  <MagneticLink href="mailto:info@expresscustomsconsulting.com" className="inline-flex items-center gap-3 bg-[#e8f0f8]/6 border border-[#e8f0f8]/12 text-[#e8f0f8] font-semibold px-5 py-3.5 rounded-full text-sm hover:bg-[#e8f0f8]/10 transition-all">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                    info.expresscustoms26@gmail.com
+                    info@expresscustomsconsulting.com
                   </MagneticLink>
                 </div>
                 <div className="mb-2">
@@ -1600,7 +1600,7 @@ export default function Home() {
               <p className="text-[#e8f0f8] font-semibold mb-5 text-sm tracking-wider uppercase">Get In Touch</p>
               <ul className="space-y-3 text-sm">
                 <li><a href="tel:+447886280525" className="hover:text-[#00c8d7] transition-colors">+44 7886 280525</a></li>
-                <li><a href="mailto:info.expresscustoms26@gmail.com" className="hover:text-[#00c8d7] transition-colors break-all">info.expresscustoms26@gmail.com</a></li>
+                <li><a href="mailto:info@expresscustomsconsulting.com" className="hover:text-[#00c8d7] transition-colors break-all">info@expresscustomsconsulting.com</a></li>
                 <li className="flex items-center gap-1.5 text-[#e8f0f8]/25">11 Moortown place, Chelmsford, Essex, CM3 3FZ</li>
               </ul>
             </div>

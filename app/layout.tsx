@@ -137,7 +137,7 @@ const jsonLd = {
   logo: `${SITE_URL}/fav.png`,
   image: `${SITE_URL}/logo.png`,
   telephone: "+447886280525",
-  email: "info.expresscustoms26@gmail.com",
+  email: "info@expresscustomsconsulting.com",
   address: {
     "@type": "PostalAddress",
     streetAddress: "11 Moortown Place",
