@@ -93,8 +93,12 @@ function useScrollProgress() {
 }
 
 /* ─── REDESIGNED SPLIT CONTACT FORM MODAL ───────────────────────────────── */
+const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/info@expresscustomsconsulting.com";
+
 function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [form, setForm] = useState({
     fullName: "",
     companyName: "",
@@ -104,14 +108,38 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
     agreed: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.agreed) return;
-    setSubmitted(true);
+    if (!form.agreed || submitting) return;
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          Name: form.fullName,
+          Company: form.companyName,
+          Email: form.email,
+          Phone: form.phone,
+          Requirements: form.description,
+          _subject: `New consultation request from ${form.fullName} (${form.companyName})`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Something went wrong sending your request. Please try again or contact us directly.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleClose = () => {
     setSubmitted(false);
+    setSubmitError(null);
     setForm({ fullName: "", companyName: "", email: "", phone: "", description: "", agreed: false });
     onClose();
   };
@@ -338,25 +366,31 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
                           </a>
                         </label>
                       </div>
+                      {submitError && (
+                        <p className="text-center text-xs font-semibold text-red-500">{submitError}</p>
+                      )}
                       <motion.button
                         type="submit"
-                        whileHover={{ scale: form.agreed ? 1.015 : 1 }}
-                        whileTap={{ scale: form.agreed ? 0.985 : 1 }}
-                        disabled={!form.agreed}
+                        whileHover={{ scale: form.agreed && !submitting ? 1.015 : 1 }}
+                        whileTap={{ scale: form.agreed && !submitting ? 0.985 : 1 }}
+                        disabled={!form.agreed || submitting}
                         className="w-full mt-2 font-bold text-sm tracking-[0.12em] uppercase rounded-lg px-6 py-4 flex items-center justify-center gap-2 transition-all duration-300"
                         style={{
                           background: form.agreed
                             ? "linear-gradient(120deg, #e8823a 0%, #f0a060 100%)"
                             : "#dde4ee",
                           color: form.agreed ? "white" : "#94a3b8",
-                          cursor: form.agreed ? "pointer" : "not-allowed",
+                          cursor: form.agreed && !submitting ? "pointer" : "not-allowed",
                           boxShadow: form.agreed ? "0 8px 24px -6px rgba(232,130,58,0.45)" : "none",
+                          opacity: submitting ? 0.75 : 1,
                         }}
                       >
-                        Send Request
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
+                        {submitting ? "Sending..." : "Send Request"}
+                        {!submitting && (
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                        )}
                       </motion.button>
                       <p className="text-center text-[10px] text-[#94a3b8]">
                         No obligation · We respond within 1 business day
@@ -666,7 +700,7 @@ const SERVICES = [
     id: "05", title: "Risk Management & Audits", shortTitle: "Risk & Audits",
     icon: (<svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>),
     description: "We assess potential compliance risks and prepare your business for customs audits, significantly reducing the likelihood of fines, shipment delays, or seizures.",
-    highlight: "Proactive Protection", stat: "98%", statLabel: "Audit Pass Rate", color: "#0099a8",
+    highlight: "Proactive Protection", stat: "100%", statLabel: "Audit Pass Rate", color: "#0099a8",
     features: ["Compliance Risk Assessment", "Customs Audit Preparation", "HMRC Dispute Support", "Seizure Prevention"],
   },
   {
@@ -1169,7 +1203,7 @@ function ConsultancyVisual() {
 const SOCIALS = [
   { Icon: FiLinkedin, label: "LinkedIn",  href: "https://linkedin.com",  color: "#0077B5" },
   { Icon: FiInstagram, label: "Instagram", href: "https://instagram.com", color: "#E1306C" },
-  { Icon: FiFacebook,  label: "Facebook",  href: "https://facebook.com", color: "#1877F2" },
+  { Icon: FiFacebook,  label: "Facebook",  href: "https://www.facebook.com/share/1L4JsAvojw/?mibextid=wwXIfr", color: "#1877F2" },
 ];
 
 function SocialLinks({ variant = "footer" }: { variant?: "contact" | "footer" }) {
@@ -1411,8 +1445,8 @@ export default function Home() {
               </div>
               <div className="hidden sm:block absolute bottom-0 left-8 rounded-2xl p-4 shadow-2xl w-44 bg-[#00c8d7]" style={{ animation: "floatY 6.5s ease-in-out infinite 1.5s" }}>
                 <p className="text-[10px] text-[#080c10]/70 tracking-widest uppercase mb-1 font-semibold">Compliance</p>
-                <p className="font-display text-3xl font-bold text-[#080c10]">98<span className="text-[#080c10]/60">%</span></p>
-                <div className="mt-2 flex gap-0.5">{[...Array(10)].map((_, i) => (<div key={i} className={`flex-1 h-1 rounded ${i < 9 ? "bg-[#080c10]/40" : "bg-[#080c10]/15"}`} />))}</div>
+                <p className="font-display text-3xl font-bold text-[#080c10]">100<span className="text-[#080c10]/60">%</span></p>
+                <div className="mt-2 flex gap-0.5">{[...Array(10)].map((_, i) => (<div key={i} className="flex-1 h-1 rounded bg-[#080c10]/40" />))}</div>
               </div>
             </div>
           </div>

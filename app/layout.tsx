@@ -167,7 +167,7 @@ const jsonLd = {
   sameAs: [
     "https://linkedin.com",
     "https://instagram.com",
-    "https://facebook.com",
+    "https://www.facebook.com/share/1L4JsAvojw/?mibextid=wwXIfr",
   ],
   makesOffer: SERVICES_JSONLD.map((s) => ({
     "@type": "Offer",
@@ -201,6 +201,7 @@ const FAQ_JSONLD = {
         text: "Your initial consultation is completely free of charge and carries no obligation. Post-consultation fees are tailored to your business size, trade volume, and the scope of services required - from short-term project engagements to ongoing retainer arrangements. We provide a bespoke, transparent quote before any work begins.",
       },
     },
+    
     {
       "@type": "Question",
       name: "Do you only work with UK businesses?",
