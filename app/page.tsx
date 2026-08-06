@@ -93,8 +93,6 @@ function useScrollProgress() {
 }
 
 /* ─── REDESIGNED SPLIT CONTACT FORM MODAL ───────────────────────────────── */
-const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/3ff9485dd39c2d2ad7357296ba216c25";
-
 function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -114,19 +112,10 @@ function ContactFormModal({ open, onClose }: { open: boolean; onClose: () => voi
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const res = await fetch(FORMSUBMIT_ENDPOINT, {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          Name: form.fullName,
-          Company: form.companyName,
-          Email: form.email,
-          Phone: form.phone,
-          Requirements: form.description,
-          _subject: `New consultation request from ${form.fullName} (${form.companyName})`,
-          _template: "table",
-          _captcha: "false",
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error("Request failed");
       setSubmitted(true);
