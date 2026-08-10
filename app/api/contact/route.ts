@@ -1,6 +1,5 @@
 export const runtime = "edge";
-
-import { WorkerMailer } from "worker-mailer";
+export const dynamic = "force-dynamic";
 
 const TO_EMAIL = "info@expresscustomsconsulting.com";
 const MAX_FIELD_LENGTH = 2000;
@@ -77,6 +76,8 @@ export async function POST(request: Request) {
   `;
 
   try {
+    const { WorkerMailer } = await import("worker-mailer");
+
     const mailer = await WorkerMailer.connect({
       credentials: {
         username: zohoEmail,
