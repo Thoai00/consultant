@@ -1,3 +1,5 @@
+import { WorkerMailer } from "worker-mailer";
+
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
@@ -76,8 +78,6 @@ export async function POST(request: Request) {
   `;
 
   try {
-    const { WorkerMailer } = await import("worker-mailer");
-
     const mailer = await WorkerMailer.connect({
       credentials: {
         username: zohoEmail,
