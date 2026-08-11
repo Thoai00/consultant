@@ -1,7 +1,4 @@
-import { WorkerMailer } from "worker-mailer";
-
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
+import { Resend } from "resend";
 
 const TO_EMAIL = "info@expresscustomsconsulting.com";
 const MAX_FIELD_LENGTH = 2000;
@@ -47,56 +44,46 @@ export async function POST(request: Request) {
     }
   }
 
-  const zohoEmail = process.env.ZOHO_EMAIL;
-  const zohoPassword = process.env.ZOHO_APP_PASSWORD;
-
-  if (!zohoEmail || !zohoPassword) {
-    console.error("ZOHO_EMAIL or ZOHO_APP_PASSWORD is not configured");
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("RESEND_API_KEY is not configured");
     return Response.json({ error: "Email service not configured" }, { status: 500 });
   }
 
-  const textBody = [
-    `Full Name: ${fullName}`,
-    `Company Name: ${companyName}`,
-    `Email: ${email}`,
-    `Contact No.: ${phone}`,
-    "",
-    "Description of Requirements:",
-    description,
-  ].join("\n");
-
-  const htmlBody = `
-    <div style="font-family: sans-serif; font-size: 15px; color: #1a2535; line-height: 1.6;">
-      <h2 style="margin-bottom: 16px;">New Consultation Request</h2>
-      <p><strong>Full Name:</strong> ${escapeHtml(fullName)}</p>
-      <p><strong>Company Name:</strong> ${escapeHtml(companyName)}</p>
-      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-      <p><strong>Contact No.:</strong> ${escapeHtml(phone)}</p>
-      <p><strong>Description of Requirements:</strong></p>
-      <p style="white-space: pre-wrap;">${escapeHtml(description)}</p>
-    </div>
-  `;
+  const resend = new Resend(apiKey);
 
   try {
-    const mailer = await WorkerMailer.connect({
-      credentials: {
-        username: zohoEmail,
-        password: zohoPassword,
-      },
-      authType: "login",
-      host: "smtp.zoho.eu",
-      port: 465,
-      secure: true,
+    const { error } = await resend.emails.send({
+      from: "Express Customs Consulting <onboarding@resend.dev>",
+      to: TO_EMAIL,
+      replyTo: email,
+      subject: `New consultation request from ${fullName} (${companyName})`,
+      text: [
+        `Full Name: ${fullName}`,
+        `Company Name: ${companyName}`,
+        `Email: ${email}`,
+        `Contact No.: ${phone}`,
+        "",
+        "Description of Requirements:",
+        description,
+      ].join("\n"),
+      html: `
+        <div style="font-family: sans-serif; font-size: 15px; color: #1a2535; line-height: 1.6;">
+          <h2 style="margin-bottom: 16px;">New Consultation Request</h2>
+          <p><strong>Full Name:</strong> ${escapeHtml(fullName)}</p>
+          <p><strong>Company Name:</strong> ${escapeHtml(companyName)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p><strong>Contact No.:</strong> ${escapeHtml(phone)}</p>
+          <p><strong>Description of Requirements:</strong></p>
+          <p style="white-space: pre-wrap;">${escapeHtml(description)}</p>
+        </div>
+      `,
     });
 
-    await mailer.send({
-      from: { name: "Express Customs Consulting", email: zohoEmail },
-      to: { name: "Express Customs Consulting", email: TO_EMAIL },
-      reply: { name: fullName, email: email },
-      subject: `New consultation request from ${fullName} (${companyName})`,
-      text: textBody,
-      html: htmlBody,
-    });
+    if (error) {
+      console.error("Resend error:", error);
+      return Response.json({ error: "Failed to send email" }, { status: 502 });
+    }
 
     return Response.json({ success: true });
   } catch (err) {
