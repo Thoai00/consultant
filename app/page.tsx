@@ -1350,6 +1350,9 @@ export default function Home() {
 
       {/* ═══ HERO ══════════════════════════════════════════════════════ */}
       <section className="relative min-h-screen overflow-hidden bg-[#080c10] pt-24">
+        <div className="absolute inset-0 opacity-[0.14] pointer-events-none">
+          <Image src="/hero-bg.webp" alt="" fill priority className="object-cover" />
+        </div>
         <div className="absolute inset-0 pointer-events-none transition-opacity duration-300" style={{ background: `radial-gradient(700px circle at ${mouse.x}% ${mouse.y}%, rgba(0,200,215,0.09), transparent 60%)` }} />
         <div className="absolute inset-0 grid-bg opacity-60" />
         <ParticleField />
