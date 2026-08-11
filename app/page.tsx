@@ -848,7 +848,7 @@ function WorkflowSection({ onBookClick }: { onBookClick: (e?: React.MouseEvent) 
         </div>
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mt-16 px-4 sm:px-0">
           <div className="relative flex flex-col items-center gap-4 rounded-3xl p-6 sm:p-10 md:p-12 border overflow-hidden w-full sm:w-auto max-w-xl mx-auto" style={{ background: "linear-gradient(160deg, rgba(20,28,36,0.92) 0%, rgba(12,17,22,0.95) 100%)", borderColor: "rgba(0,200,215,0.18)" }}>
-            <div className="absolute inset-0 opacity-[0.10] pointer-events-none">
+            <div className="absolute inset-0 opacity-[0.24] pointer-events-none">
               <Image src="/cta-bg.webp" alt="" fill className="object-cover" />
             </div>
             <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-[#00c8d7]/10 blur-3xl pointer-events-none" />
@@ -1058,7 +1058,7 @@ function TestimonialSection() {
   useEffect(() => { const id = setInterval(() => setActive((v) => (v + 1) % TESTIMONIALS.length), 5000); return () => clearInterval(id); }, []);
   return (
     <section className="py-28 bg-[#080c10] relative overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.12] pointer-events-none">
+      <div className="absolute inset-0 opacity-[0.26] pointer-events-none">
         <Image src="/testimonial-bg.webp" alt="" fill className="object-cover" />
       </div>
       <div className="absolute inset-0 pointer-events-none"><div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-[#00c8d7]/[0.04] blur-[80px]" /></div>
@@ -1356,7 +1356,7 @@ export default function Home() {
 
       {/* ═══ HERO ══════════════════════════════════════════════════════ */}
       <section className="relative min-h-screen overflow-hidden bg-[#080c10] pt-24">
-        <div className="absolute inset-0 opacity-[0.14] pointer-events-none">
+        <div className="absolute inset-0 opacity-[0.28] pointer-events-none">
           <Image src="/hero-bg.webp" alt="" fill priority className="object-cover" />
         </div>
         <div className="absolute inset-0 pointer-events-none transition-opacity duration-300" style={{ background: `radial-gradient(700px circle at ${mouse.x}% ${mouse.y}%, rgba(0,200,215,0.09), transparent 60%)` }} />
@@ -1529,7 +1529,7 @@ export default function Home() {
 
       {/* ═══ CONTACT ══════════════════════════════════════════════════ */}
       <section id="contact" className="py-28 bg-[#080c10] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.10] pointer-events-none">
+        <div className="absolute inset-0 opacity-[0.24] pointer-events-none">
           <Image src="/contact-bg.webp" alt="" fill className="object-cover" />
         </div>
         <div ref={contactRef} className="max-w-6xl mx-auto px-6 lg:px-10" style={{ opacity: contactVisible ? 1 : 0, transform: contactVisible ? "translateY(0)" : "translateY(40px)", transition: "all 0.9s ease" }}>
