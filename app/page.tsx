@@ -848,6 +848,9 @@ function WorkflowSection({ onBookClick }: { onBookClick: (e?: React.MouseEvent) 
         </div>
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mt-16 px-4 sm:px-0">
           <div className="relative flex flex-col items-center gap-4 rounded-3xl p-6 sm:p-10 md:p-12 border overflow-hidden w-full sm:w-auto max-w-xl mx-auto" style={{ background: "linear-gradient(160deg, rgba(20,28,36,0.92) 0%, rgba(12,17,22,0.95) 100%)", borderColor: "rgba(0,200,215,0.18)" }}>
+            <div className="absolute inset-0 opacity-[0.10] pointer-events-none">
+              <Image src="/cta-bg.webp" alt="" fill className="object-cover" />
+            </div>
             <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-[#00c8d7]/10 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-56 h-56 rounded-full bg-[#4dd9e6]/8 blur-3xl pointer-events-none" />
 
@@ -1055,6 +1058,9 @@ function TestimonialSection() {
   useEffect(() => { const id = setInterval(() => setActive((v) => (v + 1) % TESTIMONIALS.length), 5000); return () => clearInterval(id); }, []);
   return (
     <section className="py-28 bg-[#080c10] relative overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.12] pointer-events-none">
+        <Image src="/testimonial-bg.webp" alt="" fill className="object-cover" />
+      </div>
       <div className="absolute inset-0 pointer-events-none"><div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-[#00c8d7]/[0.04] blur-[80px]" /></div>
       <div className="relative max-w-5xl mx-auto px-6 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
@@ -1523,6 +1529,9 @@ export default function Home() {
 
       {/* ═══ CONTACT ══════════════════════════════════════════════════ */}
       <section id="contact" className="py-28 bg-[#080c10] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.10] pointer-events-none">
+          <Image src="/contact-bg.webp" alt="" fill className="object-cover" />
+        </div>
         <div ref={contactRef} className="max-w-6xl mx-auto px-6 lg:px-10" style={{ opacity: contactVisible ? 1 : 0, transform: contactVisible ? "translateY(0)" : "translateY(40px)", transition: "all 0.9s ease" }}>
           <TiltCard className="relative border rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-16 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]" style={{ background: "rgba(20,28,36,0.92)", borderColor: "rgba(0,200,215,0.18)" } as React.CSSProperties} intensity={3}>
             <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#00c8d7]/12 blur-3xl" />
