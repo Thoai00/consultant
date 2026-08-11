@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
   try {
     const { error } = await resend.emails.send({
-      from: "Express Customs Consulting <onboarding@resend.dev>",
+      from: "Express Customs Consulting <noreply@expresscustomsconsulting.com>",
       to: TO_EMAIL,
       replyTo: email,
       subject: `New consultation request from ${fullName} (${companyName})`,
