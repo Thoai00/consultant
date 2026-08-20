@@ -1048,6 +1048,81 @@ function GlobalCoverageSection() {
   );
 }
 
+/* ─── INSIGHTS ───────────────────────────────────────────────────────────── */
+const INSIGHTS = [
+  {
+    category: "Compliance",
+    date: "Aug 2026",
+    readTime: "4 min read",
+    title: "Understanding the Latest Changes to UK Customs Declarations",
+    excerpt: "A breakdown of recent HMRC updates to declaration requirements, and what UK importers and exporters need to do to stay compliant.",
+    color: "#00c8d7",
+  },
+  {
+    category: "Tariffs & Duty",
+    date: "Jul 2026",
+    readTime: "5 min read",
+    title: "5 Common HS Code Classification Mistakes That Cost Businesses",
+    excerpt: "Misclassifying goods is one of the most frequent, and expensive, customs errors. Here's how to identify and avoid the most common pitfalls.",
+    color: "#4dd9e6",
+  },
+  {
+    category: "Risk & Audits",
+    date: "Jun 2026",
+    readTime: "6 min read",
+    title: "How to Prepare Your Business for an HMRC Customs Audit",
+    excerpt: "A practical checklist for getting your documentation, processes and records audit-ready, before HMRC comes knocking.",
+    color: "#8a9ab5",
+  },
+];
+
+function InsightsSection() {
+  return (
+    <section className="py-28 bg-[#080c10] relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none"><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#00c8d7]/[0.03] blur-[100px]" /></div>
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} className="flex items-end justify-between flex-wrap gap-4 mb-14">
+          <div>
+            <div className="inline-flex items-center gap-2 text-xs tracking-[0.3em] uppercase text-[#00c8d7] font-bold mb-3"><span className="w-8 h-px bg-[#00c8d7]" />Insights</div>
+            <h2 className="font-display text-4xl md:text-6xl font-bold text-[#e8f0f8] leading-tight">
+              Latest <span className="italic grad-text">customs insights.</span>
+            </h2>
+          </div>
+          <p className="text-[#7a8fa6] max-w-sm leading-relaxed text-sm">Practical guidance and regulatory updates from our consultants, keeping you ahead of every change.</p>
+        </motion.div>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }} className="grid md:grid-cols-3 gap-6">
+          {INSIGHTS.map((post, i) => (
+            <motion.div
+              key={i}
+              variants={{ hidden: { opacity: 0, y: 35, scale: 0.96 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } } }}
+              whileHover={{ y: -8, transition: { duration: 0.25 } }}
+              className="group relative flex flex-col rounded-3xl p-7 border overflow-hidden"
+              style={{ background: "rgba(20,28,36,0.7)", borderColor: `${post.color}22` }}
+            >
+              <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `${post.color}14` }} />
+              <div className="relative flex items-center justify-between mb-5">
+                <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase" style={{ background: `${post.color}15`, color: post.color, border: `1px solid ${post.color}30` }}>
+                  {post.category}
+                </span>
+                <span className="text-[11px] text-[#7a8fa6] font-medium">{post.date}</span>
+              </div>
+              <h3 className="relative font-display text-xl font-bold text-[#e8f0f8] mb-3 leading-snug">{post.title}</h3>
+              <p className="relative text-[#7a8fa6] leading-relaxed text-sm mb-6 flex-1">{post.excerpt}</p>
+              <div className="relative flex items-center justify-between pt-4 border-t" style={{ borderColor: "rgba(232,240,248,0.06)" }}>
+                <span className="text-[11px] text-[#7a8fa6]">{post.readTime}</span>
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: post.color }}>
+                  Read More
+                  <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── TESTIMONIALS ───────────────────────────────────────────────────────── */
 const TESTIMONIALS = [
   { quote: "The tariff classification expertise alone has saved our business significant sums annually. Their team is incredibly responsive and genuinely invested in our success.", name: "Mohammad Bari", role: " Director, InfoSecWorld Ltd", initials: "MB" },
@@ -1504,6 +1579,8 @@ export default function Home() {
       <WorkflowSection onBookClick={handleBookClick} />
       <div className="section-divider max-w-7xl mx-auto" />
       <WhyUsSection />
+      <div className="section-divider max-w-7xl mx-auto" />
+      <InsightsSection />
       <div className="section-divider max-w-7xl mx-auto" />
       <TestimonialSection />
       <div className="section-divider max-w-7xl mx-auto" />
